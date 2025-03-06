@@ -5,7 +5,7 @@
       class="absolute h-64 w-96 bg-slate-800 flex flex-col opacity-[90%] items-center justify-center p-10 rounded-[15px]">
       <div
         class="absolute h-64 w-96 bg-slate-800 flex flex-col opacity-[90%] items-center justify-center p-10 rounded-[15px]">
-      <img @click="toggleModal" class="w-14 -mr-[290px] absolute -mt-44" src="../../../../public/reject.png" alt="" />
+        <img @click="toggleModal" class="w-14 -mr-[290px] absolute -mt-44" src="../../../../public/reject.png" alt="" />
         <div>
           <form @submit.prevent="uploadCourt">
             <div>
@@ -84,31 +84,21 @@
           Siz o'zingizga kerak bo'lgan sudni tanlang!
         </h2>
         <div class="grid grid-cols-1 justify-center items-center sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div
-              v-if="dat === 'datakril'"
-              v-for="item in datakril"
-              :key="item.id"
-              @click="goToPath(item.id)"
-              class="relative hover:bg-lime-500 duration-500 active:duration-500 bg-white border-4 border-blue-800 rounded-lg p-6"
-          >
-            <img @click.stop="func(item.id)" class="absolute top-1 right-2 w-6 h-6 cursor-pointer"
-                 src="../../../../public/ellipsis.png" alt="Options"/>
+          <div v-if="dat === 'datakril'" v-for="item in datakril" :key="item.id" @click="goToPath(item.id)"
+            class="relative hover:bg-lime-500 h-full flex items-center duration-500 active:duration-500 bg-white border-4 border-blue-800 rounded-lg p-6">
+            <img @click.stop="func(item)" class="absolute top-1 right-2 w-6 h-6 cursor-pointer"
+              src="../../../../public/ellipsis.png" alt="Options" />
             <div class="flex items-center gap-4">
-              <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md"/>
+              <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md" />
               <h3 class="text-lg font-medium text-center text-black capitalize">{{ item.translatedName }}</h3>
             </div>
           </div>
-          <div
-              v-if="dat === 'datalotin'"
-              v-for="item in data"
-              :key="item.id"
-              @click="goToPath(item.id)"
-              class="relative hover:bg-lime-500 duration-500 active:duration-500 bg-white border-4 border-blue-800 rounded-lg p-6"
-          >
-            <img @click.stop="func(item.id)" class="absolute top-1 right-2 w-6 h-6 cursor-pointer"
-                 src="../../../../public/ellipsis.png" alt="Options"/>
+          <div v-if="dat === 'datalotin'" v-for="item in data" :key="item.id" @click="goToPath(item.id)"
+            class="relative h-full flex items-center hover:bg-lime-500 duration-500 active:duration-500 bg-white border-4 border-blue-800 rounded-lg p-6">
+            <img @click.stop="func(item)" class="absolute top-1 right-2 w-6 h-6 cursor-pointer"
+              src="../../../../public/ellipsis.png" alt="Options" />
             <div class="flex items-center gap-4">
-              <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md"/>
+              <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md" />
               <h3 class="text-lg font-medium text-center text-black capitalize">{{ item.name }}</h3>
             </div>
           </div>
@@ -118,7 +108,7 @@
   </div>
 </template>
 <script setup>
-import {inject, watch} from "vue";
+import { inject, watch } from "vue";
 import { ref } from "vue";
 import { URL } from "../../../auth/url.js";
 import axios from "axios";
@@ -150,12 +140,13 @@ const Modal = () => {
 };
 
 const func = (id) => {
-  PutId.value = id;
-  Id.value = id; 
+  PutId.value = id.id;
+  Id.value = id.id;
+  courtName.value = id.name
   asd.value = !asd.value
 };
 const goToPath = (id) => {
-  router.push(`/ServiceAdmin/${id}`); 
+  router.push(`/ServiceAdmin/${id}`);
 };
 
 const onFileChange = (event) => {
@@ -215,13 +206,17 @@ const getData = async () => {
         ...item,
         translatedName: translateText(item.name)
       }));
-      data.value = result;
+      data.value = result.filter(item => item.status === "active");;
     } else if (result && typeof result === "object" && Array.isArray(result.applications)) {
-      datakril.value = result.applications.map(item => ({
-        ...item,
-        translatedName: translateText(item.name)
-      }));
-      data.value = result.applications;
+      datakril.value = result.applications
+        .filter(item => item.status == 'active')
+        .sort((a, b) => a.id - b.id)
+        .map(item => ({
+          ...item,
+          translatedName: translateText(item.name)
+        }));
+      data.value = result.applications.filter(item => item.status === "active")
+        .sort((a, b) => a.id - b.id);
     } else {
       console.error("Kutilmagan formatda ma'lumot keldi:", result);
     }
@@ -255,20 +250,19 @@ const updateCourt = async () => {
   formData.append("file", file.value);
 
   try {
-    const response = await axios.put(`${URL}/applications/${PutId.value}`, formData, {
+    const response = await axios.patch(`${URL}/applications/${PutId.value}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
 
-    if (response.status === 201) {
-      const updatedCourt = response.data;
-
+    if (response.status === 200) {
+      const updatedCourt = response.data
       const index = data.value.findIndex((item) => item.id === PutId.value);
       if (index !== -1) {
         data.value[index] = updatedCourt;
       }
-
+      getData();
       successMessage.value = "applications muvaffaqiyatli yangilandi!";
       courtName.value = "";
       file.value = null;

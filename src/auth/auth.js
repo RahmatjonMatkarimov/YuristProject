@@ -1,5 +1,8 @@
 import { h, ref, onMounted } from "vue";
 import jwtDecode from "jwt-decode";
+import { useRouter } from "vue-router";
+
+const router = useRouter()
 export function getRoleFromToken() {
   const token = localStorage.getItem("token");
   if (!token) return null;
@@ -33,7 +36,7 @@ export default {
         if (currentTime > parseInt(expirationTime.value)) {
           localStorage.removeItem("token");
           localStorage.removeItem("tokenExpiration");
-          window.location.reload();
+          router.push('/login')
         }
       }
     });

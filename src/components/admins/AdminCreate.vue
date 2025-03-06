@@ -3,7 +3,7 @@
     <div v-if="qwe" class="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div class="bg-white p-6 rounded-lg w-11/12 max-w-md">
         <div class="flex justify-end">
-          <img @click="qwe = false" class="w-8 -m-4 cursor-pointer absolute " src="../../../public/reject.png"
+          <img @click="qwe = false" class="w-8 -m-4 cursor-pointer absolute " src="/reject.png"
             alt="Close" />
         </div>
         <h2 class="text-xl font-semibold text-black mb-4">Yangi Admin qo‘shish</h2>

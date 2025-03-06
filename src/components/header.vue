@@ -4,7 +4,7 @@
     <div id="particles-js" class="absolute top-0 left-0 w-full h-full"></div>
     <div class="flex items-center">
       <div class="flex justify-center relative ml-2 sm:mx-10 mt-2 z-10">
-        <img src="../../public/logo.png" class="w-[200px] md:w-[250px] lg:w-[300px]" alt="Logo" />
+        <img src="/logo.png" class="w-[200px] md:w-[250px] lg:w-[300px]" alt="Logo" />
       </div>
       <b class="lg:text-[20px] 2xl:text-[23px] md:text-[16px] text-[10px] w-[80%] md:w-[60%] lg:w-[35%] z-0 uppercase"
         style="text-shadow: 2px 2px 50px white;">
@@ -23,7 +23,7 @@
           class="bg-opacity-0 bg-[#0033FF] text-ellipsis w-full relative z-50 outline-none"
           :placeholder="$t('qidiruv')">
         <label>
-          <img src="../../public/loupe.png" class="w-5" alt="Search">
+          <img src="/loupe.png" class="w-5" alt="Search">
         </label>
       </div>
       <!-- Search Results -->

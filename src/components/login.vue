@@ -24,7 +24,7 @@
       </div>
       <div class="bg-red-700 flex justify-center items-start gap-10 rounded-[20px] p-10">
         <div class="">
-          <img class="w-96 rounded-[20px]" src="../../public/unnamed.webp" alt="">
+          <img class="w-96 rounded-[20px]" src="/unnamed.webp" alt="">
         </div>
         <div>
           <h1 class="text-center text-[25px] font-bold bg-yellow-600 w-[330px] rounded-2xl ">DIQQAT&nbsp! &nbsp

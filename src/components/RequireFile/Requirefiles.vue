@@ -93,7 +93,7 @@
           </div>
         </div>
       </div>
-      <div v-if="asd" class="bg-gray-100 p-6 z-50 rounded-lg w-[500px] shadow-lg cursor-move" :style="{
+      <div v-if="asd" class="bg-gray-100 p-6 z-50 absolute rounded-lg w-[500px] shadow-lg cursor-move" :style="{
         position: 'fixed',
         top: modalPositionAsd.y + 'px',
         left: modalPositionAsd.x + 'px'
@@ -113,7 +113,7 @@
           </button>
         </div>
       </div>
-      <div v-if="asds" class="bg-gray-100 p-6 z-50 rounded-lg w-[500px] shadow-lg cursor-move" :style="{
+      <div v-if="asds" class="bg-gray-100 p-6 z-50 absolute rounded-lg w-[500px] shadow-lg cursor-move" :style="{
         position: 'fixed',
         top: modalPositionAsds.y + 'px',
         left: modalPositionAsds.x + 'px'
@@ -162,7 +162,7 @@
       </div>
       <div v-if="qwen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30">
         <div class="bg-white p-10 relative rounded-lg shadow-lg flex justify-center">
-          <img src="../../../../public/reject.png" class="w-[30px] absolute top-2 right-2" @click="qwen = false" alt="">
+          <img src="/reject.png" class="w-[30px] absolute top-2 right-2" @click="qwen = false" alt="">
           <h1 class=" text-black text-[20px] w-[500px] break-words">
             {{ statusReason }}
           </h1>
@@ -200,6 +200,8 @@ const userID = ref(parseInt(localStorage.getItem('id')));
 const role = ref(localStorage.getItem('role'));
 const statusReason = ref('')
 const searchQuery = ref('')
+const modalPositionAsds = ref('')
+const modalPositionAsd = ref('')
 const filteredFiles = computed(() => {
   if (!searchQuery.value) {
     return files.value;

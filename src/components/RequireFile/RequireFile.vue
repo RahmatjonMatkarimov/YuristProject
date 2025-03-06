@@ -162,7 +162,7 @@
       </div>
       <div v-if="qwen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30">
         <div class="bg-white p-10 relative rounded-lg shadow-lg flex justify-center">
-          <img src="../../../../public/reject.png" class="w-[30px] absolute top-2 right-2" @click="qwen = false" alt="">
+          <img src="/reject.png" class="w-[30px] absolute top-2 right-2" @click="qwen = false" alt="">
           <h1 class=" text-black text-[20px] w-[500px] break-words">
             {{ statusReason }}
           </h1>
@@ -223,7 +223,6 @@ const getdata = async () => {
   try {
     const response = await axios.get(`${URL}/admin/${userID.value}`)
     data.value = response.data.role
-
   } catch (error) {
     console.error('Fayllarni olishda xatolik:', error)
   }

@@ -30,11 +30,16 @@
       class="relative hover:bg-lime-500 duration-500 bg-white w-[200px] border-4 border-blue-800 rounded-lg p-6">
       <h3 class="text-lg font-medium text-center text-black capitalize">Xabarlar</h3>
     </div>
+    <div @click="goToPath('files')"
+      class="relative hover:bg-lime-500 duration-500 bg-white w-[200px] border-4 border-blue-800 rounded-lg p-6">
+      <h3 class="text-lg font-medium text-center text-black capitalize">Filelar</h3>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
-import router from '@/router';
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 function goToPath(data) {
   router.push(`/archiveBody/${data}`)
 }

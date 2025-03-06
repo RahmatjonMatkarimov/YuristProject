@@ -5,14 +5,10 @@ const routes = [
     {
         path: "/edit/:id",
         name: "editFile",
-        component: () => import("@/components/main/file/fileEditor.vue"),
-        meta: { requiresAuth: true, allowedRoles: ["admin"] },
+        component: () => import("@/components/main/file/file.vue"),
     },
-
-
     { path: "/CommonerLogin", name: "CommonerLogin", component: () => import("@/components/filePage/fileLogin.vue") },
     { path: "/fileProfile/:id", name: "fileProfile", component: () => import("@/components/filePage/fileProfile.vue") },
-
     { path: "/", name: "home", component: () => import("@/views/Home.vue") },
     { path: "/login", name: "login", component: () => import("@/components/login.vue") },
     { path: "/path/:id", name: "pathId", component: () => import("@/components/main/path/path.vue") },
@@ -21,9 +17,11 @@ const routes = [
     { path: "/appeals", name: "appeals", component: () => import("@/components/appeal/appeal.vue") },
     { path: "/aplications/:id", name: "aplications", component: () => import("@/components/main/aplications/aplications.vue") },
     { path: "/screen", name: "screen", component: () => import("@/components/filePage/dakument.vue") },
+    { path: "/servise/:id", name: "screen", component: () => import("@/components/main/servise/servise.vue") },
     { path: "/:catchAll(.*)", component: () => import("@/components/error.vue"), props: { errorCode: 404 } },
 
-    { path: "/admin", component: () => import("@/components/Templates/AdminTemplate.vue"),
+    {
+        path: "/admin", component: () => import("@/components/Templates/AdminTemplate.vue"),
         children: [
             { path: "", component: () => import("@/components/main/admin.vue") },
             { path: "/appealAdmin", component: () => import("@/components/appeal/appealAdmin.vue") },
@@ -32,7 +30,7 @@ const routes = [
             { path: "/yurists", component: () => import("@/components/admins/YuristCreate.vue") },
             { path: "/operators", component: () => import("@/components/admins/coll_centerCreate.vue") },
             { path: "/profile/:id", component: () => import("@/components/ProfilePage/Profile.vue") },
-            { path: "/ServiceAdmin/:id", component: () => import("@/components/main/ServiceAdmin.vue") },
+            { path: "/ServiceAdmin/:id", component: () => import("@/components/main/servise/ServiceAdmin.vue") },
             { path: "/aplicationsAdmin/:id", component: () => import("@/components/main/aplications/aplicationsAdmin.vue") },
             { path: "/AdminPath/:id", component: () => import("@/components/main/path/adminPath.vue") },
             { path: "/setting/:id", component: () => import("@/components/settings/setting.vue") },
@@ -52,7 +50,6 @@ const routes = [
             { path: "/payments", component: () => import("@/components/payments.vue") },
             { path: "/obligations/:id", component: () => import("@/components/RequireFile/obligations/obligations.vue") },
             { path: "/smile", component: () => import("@/components/Message/CreateSmile.vue") },
-            { path: "/kiosk", component: () => import("@/views/admins.vue") },
         ],
     },
 ];

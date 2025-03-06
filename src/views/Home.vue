@@ -15,5 +15,3 @@ import Time from "@/components/time/time.vue";
 import Footer from "@/components/footer/footer.vue";
 import ParticlesHeader from "@/components/header.vue";
 </script>
-
-<style scoped></style>

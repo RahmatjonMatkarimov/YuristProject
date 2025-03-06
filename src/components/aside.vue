@@ -31,7 +31,6 @@ const menuItems = [
   { to: "/Requirefiles", label: "Imzolanishi kerak bo'lgan filelar", condition: () => data.value?.userFiles },
   { to: "/payments", label: "Tizim to'lovlari", condition: true },
   { to: "/smile", label: "Stikker qo'shish", condition: true },
-  { to: "/screen", label: "Shaxsiy kabinet", condition: true },
 ];
 function open() {
   window.open("https://github.com/")

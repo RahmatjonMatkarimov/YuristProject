@@ -18,8 +18,8 @@
            alt="Close" />
       <form @submit.prevent="updateCourt" class="w-full">
         <input v-model="courtName" class="w-full text-black outline-none p-3 mt-6 rounded-lg" type="text" id="name"
-               placeholder="Court Name" required />
-        <input @change="onFileChange" type="file" id="file" accept="image/*" class="w-full mt-4" required />
+               placeholder="Court Name" />
+        <input @change="onFileChange" type="file" id="file" accept="image/*" class="w-full mt-4" />
         <button class="w-full mt-6 py-2 text-lg font-medium text-white bg-lime-600 rounded-lg hover:bg-lime-900"
                 type="submit">
           Yuklash
@@ -72,7 +72,7 @@
                  src="../../../../public/ellipsis.png" alt="Options" />
             <div class="flex items-center gap-4">
               <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md" />
-              <h3 class="text-lg font-medium text-center text-black">{{ item.name }}</h3>
+              <h3 class="text-lg capitalize font-medium text-center text-black">{{ item.name }}</h3>
             </div>
           </div>
         </div>
@@ -217,7 +217,7 @@ const updateCourt = async () => {
   formData.append("file", file.value);
 
   try {
-    const response = await axios.put(`${URL}/service/${PutId.value}`, formData, {
+    const response = await axios.patch(`${URL}/service/${PutId.value}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
