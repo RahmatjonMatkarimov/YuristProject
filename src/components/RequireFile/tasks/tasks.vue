@@ -7,7 +7,7 @@
     <div class="max-w-[95%] mx-auto p-6 bg-white rounded-xl shadow-lg mt-10">
       <div class="flex justify-end">
         <input v-model="searchQuery" type="text" :placeholder="$t('qidiruv')"
-        class="mb-4 border-2 p-2 rounded-lg text-black " />
+          class="mb-4 border-2 p-2 rounded-lg text-black " />
       </div>
       <button v-if="data === 'yurist'" @click="toggleDeleteMode"
         class="bg-blue-500 text-white mb-4 mr-2 px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition">
@@ -24,9 +24,9 @@
             {{ translateText(file.User.surname) }} {{ translateText(file.User.name) }} <span
               class="text-[13px] text-black">{{ translateText(file.User.lavozimi)
               }}</span>
-            <h1 @click="openFile(file)" class="text-blue-600  cursor-pointer font-semibold hover:underline">
+            <p @click="openFile(file)" class="text-blue-600  cursor-pointer font-semibold hover:underline">
               {{ translateText(file.name) }}
-            </h1>
+            </p>
           </h1>
           <span :class="file.status === 'signed' ? 'text-green-600' : 'text-red-600'">
             {{ $t('holat') }}: {{ translateText(getStatusText(file.status)) }}
@@ -51,10 +51,10 @@
           :class="[index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200', 'flex group items-center border justify-between p-2 mb-2 hover:bg-lime-600 transition']">
           <h1 class="text-black w-[870px]">
             {{ file.User.surname }} {{ file.User.name }} <span class="text-[13px] text-black">{{ file.User.lavozimi
-            }}</span>
-            <h1 @click="openFile(file)" class="text-blue-600  cursor-pointer font-semibold hover:underline">
+              }}</span>
+            <p @click="openFile(file)" class="text-blue-600  cursor-pointer font-semibold hover:underline">
               {{ file.name }}
-            </h1>
+            </p>
           </h1>
           <span :class="file.status === 'signed' ? 'text-green-600' : 'text-red-600'">
             {{ $t('holat') }}: {{ getStatusText(file.status) }}
@@ -287,7 +287,7 @@ const uploadFile = async () => {
 }
 
 const updateFile = async () => {
-  const id = selectedFileId.value; 
+  const id = selectedFileId.value;
   if (!id) return;
   try {
     await axios.put(`${URL}/signingFiles/${id}`);
@@ -340,7 +340,7 @@ const openFile = (file) => {
 onMounted(() => {
   getdata();
   fetchFiles();
-}); 
+});
 const isDragging = ref(false);
 const currentModal = ref(null);
 const dragOffset = ref({ x: 0, y: 0 });

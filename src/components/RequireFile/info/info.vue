@@ -24,9 +24,9 @@
             {{ translateText(file.User.surname) }} {{ translateText(file.User.name) }} <span
               class="text-[13px] text-black">{{ translateText(file.User.lavozimi)
               }}</span>
-            <h1 @click="openFile(file)" class="text-blue-600  cursor-pointer font-semibold hover:underline">
+            <p @click="openFile(file)" class="text-blue-600  cursor-pointer font-semibold hover:underline">
               {{ translateText(file.name) }}
-            </h1>
+            </p>
           </h1>
           <span :class="file.status === 'signed' ? 'text-green-600' : 'text-red-600'">
             {{ $t('holat') }}: {{ translateText(getStatusText(file.status)) }}
@@ -52,9 +52,9 @@
           <h1 class="text-black w-[870px]">
             {{ file.User.surname }} {{ file.User.name }} <span class="text-[13px] text-black">{{ file.User.lavozimi
               }}</span>
-            <h1 @click="openFile(file)" class="text-blue-600  cursor-pointer font-semibold hover:underline">
+            <p @click="openFile(file)" class="text-blue-600  cursor-pointer font-semibold hover:underline">
               {{ file.name }}
-            </h1>
+            </p>
           </h1>
           <span :class="file.status === 'signed' ? 'text-green-600' : 'text-red-600'">
             {{ $t('holat') }}: {{ getStatusText(file.status) }}
