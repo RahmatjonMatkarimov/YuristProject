@@ -51,7 +51,7 @@ const filteredMenu = computed(() => {
       </h1>
     </router-link>
     <div @click="open()" class="text-black block li">
-      <b class="text-black block w-[30px]">{{ menuItems.length + 1 }}</b>
+      <b class="text-black block w-[30px]">{{ filteredMenu.length + 1 }}</b>
       <h1 class="text-black"> 
         github
       </h1>
