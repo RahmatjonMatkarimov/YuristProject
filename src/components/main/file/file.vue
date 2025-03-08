@@ -1,31 +1,64 @@
 <template>
+  <div class="absolute top-1 right-1">
+    <div class="relative">
+      <button @click="toggleDropdown"
+        class="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 rounded-lg px-4 py-2 shadow-md">
+        <img :src="selectedFlag" class="w-5 rounded h-5" />
+        <span>{{ selectedLabel }}</span>
+        <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': isOpen }" fill="currentColor"
+          viewBox="0 0 20 20">
+          <path fill-rule="evenodd"
+            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+            clip-rule="evenodd"></path>
+        </svg>
+      </button>
+
+      <div v-if="isOpen"
+        class="absolute right-0 mt-2 w-40 bg-blue-700 border rounded-lg shadow-md overflow-hidden transition-opacity">
+        <div @click="setLanguage('uzb', 'Uz', '/uzb.png')"
+          class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-blue-800 transition">
+          <img src="/uzb.png" class="w-5 rounded h-5" />
+          <span>Uz</span>
+        </div>
+        <div @click="setLanguage('ўзб', 'Уз', '/uzb.png')"
+          class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-blue-800 transition">
+          <img src="/uzb.png" class="w-5 rounded h-5" />
+          <span>Уз</span>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="bg-gray-100 flex flex-col justify-center items-center p-6">
     <div class="flex h-full w-full gap-3 justify-center">
       <form @submit.prevent="submitForm" class="w-1/2">
         <div class="bg-white shadow-md rounded-lg p-6 w-full">
-          <div class="mb-6" v-if="placeholders.length > 0">
+          <div class="mb-6" v-if="dat === 'datalotin'">
             <div class="mt-3" v-for="(placeholder, index) in placeholders" :key="index">
               <label class="text-[18px]">{{ getPlaceholderLabel(placeholder) }}:</label>
-              <input
-                v-model="inputValues[placeholder]"
+              <input v-model="inputValues[placeholder]"
                 class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                :placeholder="getPlaceholderLabel(placeholder)"
-                @input="updateContent"
-              />
+                :placeholder="getPlaceholderLabel(placeholder)" @input="updateContent" />
             </div>
-            <button
-              type="submit"
-              class="w-full text-white duration-500 py-2 rounded-lg font-semibold bg-blue-500 hover:bg-blue-600 mt-4"
-            >
-              Yuborish
+            <button type="submit"
+              class="w-full text-white duration-500 py-2 rounded-lg font-semibold bg-blue-500 hover:bg-blue-600 mt-4">
+              {{ $t('jonatish') }}
+            </button>
+          </div>
+          <div class="mb-6" v-if="dat === 'datakril'">
+            <div class="mt-3" v-for="(placeholder, index) in placeholders" :key="index">
+              <label class="text-[18px]">{{ getPlaceholderLabel(translateText(placeholder)) }}:</label>
+              <input v-model="inputValues[placeholder]"
+                class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                :placeholder="getPlaceholderLabel(translateText(placeholder))" @input="updateContent" />
+            </div>
+            <button type="submit"
+              class="w-full text-white duration-500 py-2 rounded-lg font-semibold bg-blue-500 hover:bg-blue-600 mt-4">
+              {{ $t('jonatish') }}
             </button>
           </div>
         </div>
       </form>
-      <div
-        v-if="showContent"
-        class="bg-white w-[900px] h-[100vh] shadow-md rounded-lg p-6 text-gray-700 overflow-auto"
-      >
+      <div v-if="showContent" class="bg-white w-[900px] h-[100vh] shadow-md rounded-lg p-6 text-gray-700 overflow-auto">
         <div v-html="animatedContent" class="custom-content"></div>
       </div>
     </div>
@@ -50,6 +83,8 @@ import { useRoute } from 'vue-router';
 import { Document, Packer, Paragraph, TextRun } from 'docx';
 import mammoth from 'mammoth';
 import { URL, URL1 } from '@/auth/url';
+import { useI18n } from "vue-i18n";
+import { provide } from "vue";
 
 const route = useRoute();
 const id = ref(route.params.id);
@@ -59,6 +94,40 @@ const animatedContent = ref('');
 const placeholders = ref([]);
 const inputValues = ref({});
 const showContent = ref(false);
+const { locale } = useI18n();
+const isOpen = ref(false);
+const selectedFlag = ref("/uzb.png");
+const selectedLabel = ref("Uz");
+const dat = ref("datalotin");
+provide("dat", dat);
+
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value;
+};
+
+const setLanguage = (lang, label, flag) => {
+  dat.value = lang === "ўзб" ? "datakril" : "datalotin";
+  locale.value = lang;
+  selectedLabel.value = label;
+  selectedFlag.value = flag;
+  isOpen.value = false;
+};
+const translitMap = {
+  ch: "ч", sh: "ш", yo: "ё", yu: "ю", ya: "я", ye: "е", "oʻ": "ў", "g‘": "ғ",
+  a: "а", b: "б", d: "д", e: "э", f: "ф", g: "г", h: "ҳ", i: "и", j: "ж",
+  k: "к", l: "л", m: "м", n: "н", o: "о", p: "п", q: "қ", r: "р", s: "с",
+  t: "т", u: "у", v: "в", x: "х", y: "й", z: "з", "'": "ъ"
+};
+
+const translateText = (text) => {
+  if (!text) return "";
+  let translated = text.toLowerCase();
+  for (const [key, value] of Object.entries(translitMap)) {
+    translated = translated.replace(new RegExp(key, "g"), value);
+  }
+  return translated;
+};
+
 
 const API_URL = URL;
 const url = URL1;
