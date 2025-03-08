@@ -1,6 +1,6 @@
 <template>
-  <div class="absolute top-1 right-1">
-    <div class="relative">
+  <div class="relative">
+    <div class="fixed top-1 right-1">
       <button @click="toggleDropdown"
         class="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 rounded-lg px-4 py-2 shadow-md">
         <img :src="selectedFlag" class="w-5 rounded h-5" />
