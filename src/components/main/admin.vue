@@ -18,7 +18,7 @@
             <input @change="onFileChange" type="file" id="file" accept="image/*" />
           </div>
           <button class="w-full rounded-[30px] bg-lime-600 hover:bg-lime-900 text-[20px] py-2" type="submit">
-            Yuklash
+            {{ $t('yuklash') }}
           </button>
         </form>
         <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
@@ -45,7 +45,7 @@
           <button @click="push"
             class="py-4 rounded-[15px] h-[70px] items-center text-black flex w-full min-w-[250px] duration-500 text-[20px] px-10 bg-gray-400 hover:red-700">
             <img class="w-10 mr-5" src="../../../public/settings3.png" alt="">
-            setting
+            {{ $t('sozlash') }}
           </button>
         </div>
       </div>

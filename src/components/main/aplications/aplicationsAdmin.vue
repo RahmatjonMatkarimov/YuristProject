@@ -16,7 +16,7 @@
               <input @change="onFileChange" type="file" id="file" accept="image/*" required />
             </div>
             <button class="w-full rounded-[30px] bg-lime-600 hover:bg-lime-900 text-[20px] py-2" type="submit">
-              Yuklash
+              {{ $t('yuklash') }}
             </button>
           </form>
           <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
@@ -40,7 +40,7 @@
             <input @change="onFileChange" type="file" id="file" accept="image/*" required />
           </div>
           <button class="w-full rounded-[30px] bg-lime-600 hover:bg-lime-900 text-[20px] py-2" type="submit">
-            Yuklash
+            {{ $t('yuklash') }}
           </button>
         </form>
         <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
@@ -56,13 +56,13 @@
           <button @click="Modal"
             class="py-4 rounded-[15px] h-[70px] items-center text-black w-full min-w-[250px] flex duration-500 text-[20px] px-10 bg-[#15FF09] hover:bg-lime-600">
             <img class="w-8 mr-5" src="../../../../public/pen.png" alt="">
-            O’zgartirish
+            {{ $t('tahrirlash') }}
 
           </button>
           <button @click="removeSelectedItems"
             class="py-4 rounded-[15px] h-[70px] items-center text-black flex w-full min-w-[250px] duration-500 text-[20px] px-10 bg-[#FF0C0C] hover:bg-red-700">
             <img class="w-10 mr-5" src="../../../../public/remove.png" alt="">
-            O'chirish
+            {{ $t('remove') }}
           </button>
         </div>
       </div>
@@ -72,7 +72,7 @@
   <div class="flex flex-col items-center py-10">
     <div class="w-full flex justify-end p-6">
       <button @click="showModal = true" class="text-lg font-medium py-2 px-4 bg-lime-500 hover:bg-lime-600 rounded-lg">
-        Add +
+        {{ $t('create') }}
       </button>
     </div>
     <div class="flex flex-col items-center mt-6 px-4">

@@ -9,7 +9,7 @@
         <input @change="onFileChange" type="file" id="file" accept="image/*" required />
       </div>
       <button class="w-full rounded-[30px] bg-lime-600 hover:bg-lime-900 text-[20px] py-2" type="submit">
-        Yuklash
+        {{ $t('yuklash') }}
       </button>
     </form>
     <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
@@ -49,7 +49,7 @@ export default {
         courtName.value = "";
         file.value = null;
         nextTick(() => {
-          window.location.reload(); 
+          window.location.reload();
         });
       } catch (error) {
         errorMessage.value = "Yuklashda xato yuz berdi!";

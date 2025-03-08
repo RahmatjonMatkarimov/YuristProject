@@ -1,11 +1,11 @@
 <template>
   <!-- Add Modal -->
   <div v-if="showModal"
-       class="fixed inset-0 z-50 w-full h-full flex items-center bg-black bg-opacity-50 justify-center">
+    class="fixed inset-0 z-50 w-full h-full flex items-center bg-black bg-opacity-50 justify-center">
     <div
-        class="absolute h-auto  bg-slate-500 flex flex-col opacity-90 items-center justify-center p-6 sm:p-10 rounded-lg">
-      <img @click="toggleModal" class="w-10 absolute top-4 right-4 cursor-pointer"
-           src="../../../../public/reject.png" alt="Close" />
+      class="absolute h-auto  bg-slate-500 flex flex-col opacity-90 items-center justify-center p-6 sm:p-10 rounded-lg">
+      <img @click="toggleModal" class="w-10 absolute top-4 right-4 cursor-pointer" src="../../../../public/reject.png"
+        alt="Close" />
       <uploadpathadmin />
     </div>
   </div>
@@ -13,16 +13,16 @@
   <!-- Update Modal -->
   <div v-if="PutModal" class="fixed inset-0 z-50 w-full h-full flex items-center bg-black bg-opacity-50 justify-center">
     <div
-        class="absolute h-auto bg-slate-800 flex flex-col opacity-90 items-center justify-center p-6 sm:p-10 rounded-lg">
+      class="absolute h-auto bg-slate-800 flex flex-col opacity-90 items-center justify-center p-6 sm:p-10 rounded-lg">
       <img @click="Modal" class="w-10 absolute top-4 right-4 cursor-pointer" src="../../../../public/reject.png"
-           alt="Close" />
+        alt="Close" />
       <form @submit.prevent="updateCourt" class="w-full">
         <input v-model="courtName" class="w-full text-black outline-none p-3 mt-6 rounded-lg" type="text" id="name"
-               placeholder="Court Name" />
+          placeholder="Court Name" />
         <input @change="onFileChange" type="file" id="file" accept="image/*" class="w-full mt-4" />
         <button class="w-full mt-6 py-2 text-lg font-medium text-white bg-lime-600 rounded-lg hover:bg-lime-900"
-                type="submit">
-          Yuklash
+          type="submit">
+          {{ $t('yuklash') }}
         </button>
         <p v-if="successMessage" class="mt-2 text-center text-green-500">{{ successMessage }}</p>
         <p v-if="errorMessage" class="mt-2 text-center text-red-500">{{ errorMessage }}</p>
@@ -33,18 +33,18 @@
   <!-- Delete Confirmation Modal -->
   <div v-if="asd" class="fixed inset-0 z-50 w-full h-full flex items-center bg-black bg-opacity-50 justify-center">
     <div class="absolute w-[400px] bg-gray-300 flex flex-col items-center justify-center p-6 sm:p-10 rounded-lg">
-      <img @click="func(null)" class="w-10 absolute top-4 right-4 cursor-pointer"
-           src="../../../../public/reject.png" alt="Close" />
+      <img @click="func(null)" class="w-10 absolute top-4 right-4 cursor-pointer" src="../../../../public/reject.png"
+        alt="Close" />
       <div class="mt-4 flex flex-col w-full items-center">
         <button @click="Modal"
-                class="w-full py-4 px-6 mb-4 text-lg font-medium text-black bg-lime-500 rounded-lg hover:bg-lime-600">
+          class="w-full py-4 px-6 mb-4 text-lg font-medium text-black bg-lime-500 rounded-lg hover:bg-lime-600">
           <img class="w-6 sm:w-8 inline-block mr-2" src="../../../../public/pen.png" alt="Edit" />
-          O’zgartirish
+          {{ $t('tahrirlash') }}
         </button>
         <button @click="removeSelectedItems"
-                class="w-full py-4 text-lg px-6 font-medium text-white bg-red-500 rounded-lg hover:bg-red-700">
+          class="w-full py-4 text-lg px-6 font-medium text-white bg-red-500 rounded-lg hover:bg-red-700">
           <img class="w-6 sm:w-8 inline-block mr-2" src="../../../../public/remove.png" alt="Delete" />
-          O'chirish
+          {{ $t('removove') }}
         </button>
       </div>
     </div>
@@ -54,7 +54,7 @@
   <div class="flex flex-col items-center py-10">
     <div class="w-full flex justify-end px-6">
       <button @click="toggleModal" class="text-lg font-medium py-2 px-4 bg-lime-500 hover:bg-lime-600 rounded-lg">
-        Add +
+        {{ $t('create') }}
       </button>
     </div>
     <div class="flex flex-col items-center mt-6 px-4">
@@ -66,13 +66,18 @@
           Siz o'zingizga kerak bo'lgan sudni tanlang!
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="item in data" :key="item.id" @click="goToPath(item.id)"
-               class="relative   bg-white border-4 border-blue-800 rounded-lg p-6">
-            <img @click.stop="func(item.id)" class="absolute top-2 right-2 w-6 h-6 cursor-pointer"
-                 src="../../../../public/ellipsis.png" alt="Options" />
+          <div v-if="dat === 'datakril'" v-for="item in data" :key="item.id" @click="goToPath(item.id)"
+            class="relative hover:bg-lime-500 duration-500 bg-white border-4 border-blue-800 rounded-lg p-6">
             <div class="flex items-center gap-4">
               <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md" />
-              <h3 class="text-lg capitalize font-medium text-center text-black">{{ item.name }}</h3>
+              <h3 class="text-lg font-medium text-center text-black capitalize">{{ translateText(item.name) }}</h3>
+            </div>
+          </div>
+          <div v-if="dat === 'datalotin'" v-for="item in data" :key="item.id" @click="goToPath(item.id)"
+            class="relative hover:bg-lime-500 duration-500 bg-white border-4 border-blue-800 rounded-lg p-6">
+            <div class="flex items-center gap-4">
+              <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md" />
+              <h3 class="text-lg font-medium text-center text-black capitalize">{{ item.name }}</h3>
             </div>
           </div>
         </div>
@@ -85,15 +90,15 @@
 
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 import { watch } from "vue";
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import uploadpathadmin from "@/components/main/path/uploadpathadmin.vue";
 import { URL } from "../../../auth/url.js";
 import axios from "axios";
-import Navbar from "@/components/header.vue";
 
+const dat = inject('dat');
 const PutId = ref(null);
 const router = useRouter();
 const route = useRoute();
@@ -107,6 +112,21 @@ const selectedId = ref(null);
 const id1 = ref(route.params.id)
 
 
+const translitMap = {
+  "ch": "ч", "sh": "ш", "yo": "ё", "yu": "ю", "ya": "я", "ye": "е", "oʻ": "ў", "g‘": "ғ",
+  "a": "а", "b": "б", "d": "д", "e": "э", "f": "ф", "g": "г", "h": "ҳ", "i": "и", "j": "ж",
+  "k": "к", "l": "л", "m": "м", "n": "н", "o": "о", "p": "п", "q": "қ", "r": "р", "s": "с",
+  "t": "т", "u": "у", "v": "в", "x": "х", "y": "й", "z": "з", "'": "ъ"
+};
+
+const translateText = (text) => {
+  if (!text) return ''; // Agar text undefined yoki null bo‘lsa, bo‘sh qator qaytaradi
+  let translated = text.toLowerCase();
+  for (const key in translitMap) {
+    translated = translated.replace(new RegExp(key, "g"), translitMap[key]);
+  }
+  return translated;
+};
 
 const toggleModal = () => {
   showModal.value = !showModal.value;
@@ -134,8 +154,8 @@ const getData = async () => {
     const response = await fetch(`${url}/${id1.value}`);
     if (response.ok) {
       const result = await response.json();
-      data.value = result.services.sort((a, b) => a.id - b.id);
-
+      data.value = result.services.sort((a, b) => a.id - b.id)
+        .filter(item => item.status === "active");
     } else {
       console.error("Ma'lumotlarni olishda xatolik:", response.statusText);
     }

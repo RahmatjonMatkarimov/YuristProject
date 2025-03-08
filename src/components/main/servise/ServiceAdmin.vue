@@ -1,49 +1,38 @@
 <template>
   <div v-if="togle" class="fixed inset-0 z-50 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
     <div class="absolute bg-gray-900 flex flex-col opacity-[90%] items-center justify-center p-10 px-10 rounded-[15px]">
-      <!-- Modal fon quyuqroq kulrangga o'zgartirildi (bg-gray-800 -> bg-gray-900) -->
       <div class="file-upload-container">
-        <h1 class="text-center text-[25px] text-white">{{ isEditing ? 'Faylni tahrirlash' : 'Fayl yuklash' }}</h1>
-        <!-- Matn rangi aniqlik uchun text-white qo'shildi -->
         <div class="file-upload-area flex justify-center items-center">
           <input type="text" class="text-black w-full p-2 rounded-[25px] my-2 bg-gray-200" placeholder="Name"
             v-model="selectedName" />
-          <!-- Input uchun och kulrang fon (bg-gray-200) qo'shildi -->
           <input type="file" id="fileInput" @change="handleFileChange" />
           <div>
             <button @click="back()"
               class="upload-button mr-5 mt-2 bg-gray-600 text-white px-9 py-[10px] rounded-[5px] hover:bg-gray-700">
-              Bekor Qilish
+              {{ $t('Bekor_qilish') }}
             </button>
-            <!-- Bekor qilish tugmasi uchun kulrang (bg-gray-600) -->
             <button @click="isEditing ? updateFile() : uploadFile()"
               class="bg-[#2196f3] border-none rounded-[5px] cursor-pointer px-9 py-[10px] text-white hover:bg-[#1e88e5]">
               {{ isEditing ? 'Yangilash' : 'Yuklash' }}
             </button>
-            <!-- Ko'k rang saqlanib, hover qo'shildi -->
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Delete Confirmation Modal -->
   <div v-if="asd"
     class="fixed inset-0 top-0 w-full z-50 h-full flex items-center justify-center bg-black bg-opacity-50">
     <div class="absolute bg-gray-900 flex flex-col opacity-[90%] items-center justify-center p-10 rounded-[15px]">
-      <!-- Modal fon bg-gray-800 -> bg-gray-900 -->
-      <h2 class="text-white text-[20px] mb-4">O'chirmoqchimisiz?</h2>
       <div class="mt-4 w-[300px] justify-evenly flex">
         <button @click="removeSelectedItems"
           class="py-2 px-7 rounded-[25px] text-white duration-500 bg-teal-500 hover:bg-teal-600">
-          O'chirish
+          {{ $t('remove') }}
         </button>
-        <!-- Yashil o'rniga teal-500 ishlatildi -->
         <button @click="func(null)"
           class="py-2 rounded-[25px] text-white duration-500 px-6 bg-red-600 hover:bg-red-700">
-          Bekor qilish
+          {{ $t('Bekor_qilish') }}
         </button>
-        <!-- Qizil rang bir oz quyuqroq qilindi (bg-red-500 -> bg-red-600) -->
       </div>
     </div>
   </div>
@@ -52,20 +41,31 @@
     <div>
       <button @click="back" id="add"
         class="mr-6 text-[20px] px-4 py-2 rounded-[25px] text-white duration-500 bg-teal-500 hover:bg-teal-600">
-        File yaratish
+        {{ $t('create') }}
       </button>
-      <!-- Yashil o'rniga teal-500 -->
     </div>
   </div>
   <div class="text-black flex flex-col justify-center mt-16 items-center">
     <div class="">
       <div class="rounded-[20px] max-w-[110rem] p-10 mb-16   opacity-[98%] w-[1200px] shadow-2xl bg-gray-300 ">
-        <div v-for="(item, index) in ServiceData" :key="item.id"
+        <div v-if="dat === 'datalotin'" v-for="(item, index) in ServiceData" :key="item.id"
           class="flex items-center h-[70px] text-xl justify-between mb-1 p-2 mt-[14px] shadow-2xl rounded-[10px] hover:bg-lime-500 duration-300 border-blue-700 border-2 bg-white cursor-pointer">
           <b class="text-[20px] text-black w-[35px] text-center">{{ index + 1 }}</b>
           <img width="25px" class="mr-5" src="../../../../public/word.png" alt="" />
           <h1 class="text-black flex-1" @click="goToCard(item.id)"> {{ item.name
-            }}</h1>
+          }}</h1>
+          <div class="flex gap-2">
+            <img @click.stop="editFile(item)" class="w-4 h-4 cursor-pointer" src="../../../../public/pen.png"
+              alt="edit" />
+            <img @click.stop="func(item.id)" class="w-4 h-4 cursor-pointer" src="../../../../public/reject.png"
+              alt="delete" />
+          </div>
+        </div>
+        <div v-if="dat === 'datakril'" v-for="(item, index) in ServiceData" :key="item.id"
+          class="flex items-center h-[70px] text-xl justify-between mb-1 p-2 mt-[14px] shadow-2xl rounded-[10px] hover:bg-lime-500 duration-300 border-blue-700 border-2 bg-white cursor-pointer">
+          <b class="text-[20px] text-black w-[35px] text-center">{{ index + 1 }}</b>
+          <img width="25px" class="mr-5" src="../../../../public/word.png" alt="" />
+          <h1 class="text-black flex-1" @click="goToCard(item.id)"> {{ translateText(item.name) }}</h1>
           <div class="flex gap-2">
             <img @click.stop="editFile(item)" class="w-4 h-4 cursor-pointer" src="../../../../public/pen.png"
               alt="edit" />
@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { URL } from "../../../auth/url.js";
 
@@ -94,6 +94,22 @@ const editingFileId = ref(null);
 const route = useRoute();
 const router = useRouter();
 const numericId = ref(parseInt(route.params.id));
+const dat = inject('dat');
+const translitMap = {
+  "ch": "ч", "sh": "ш", "yo": "ё", "yu": "ю", "ya": "я", "ye": "е", "oʻ": "ў", "g‘": "ғ",
+  "a": "а", "b": "б", "d": "д", "e": "э", "f": "ф", "g": "г", "h": "ҳ", "i": "и", "j": "ж",
+  "k": "к", "l": "л", "m": "м", "n": "н", "o": "о", "p": "п", "q": "қ", "r": "р", "s": "с",
+  "t": "т", "u": "у", "v": "в", "x": "х", "y": "й", "z": "з", "'": "ъ"
+};
+
+const translateText = (text) => {
+  if (!text) return '';
+  let translated = text.toLowerCase();
+  for (const key in translitMap) {
+    translated = translated.replace(new RegExp(key, "g"), translitMap[key]);
+  }
+  return translated;
+};
 
 onMounted(async () => {
   ServiceId.value = numericId.value;
@@ -148,7 +164,7 @@ const editFile = (item) => {
   isEditing.value = true;
   editingFileId.value = item.id;
   selectedName.value = item.name;
-  selectedFile.value = null; // Reset file input for editing
+  selectedFile.value = null; 
   togle.value = true;
 };
 
@@ -157,7 +173,7 @@ const updateFile = async () => {
     const formData = new FormData();
     formData.append("name", selectedName.value);
     if (selectedFile.value) {
-      formData.append("file", selectedFile.value); // Only append if a new file is selected
+      formData.append("file", selectedFile.value); 
     }
 
     const response = await fetch(`${URL}/files/${editingFileId.value}`, {
@@ -249,7 +265,6 @@ const goToCard = (id) => {
   background-color: #d32f2f;
 }
 
-/* Style for file input */
 input[type="file"] {
   margin: 10px 0;
   color: white;

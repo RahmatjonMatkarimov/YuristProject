@@ -3,13 +3,13 @@
     <form @submit.prevent="uploadCourt">
       <div>
         <input v-model="courtName" class="text-black w-full outline-none p-3 mt-9 rounded-[15px]" type="text" id="name"
-               required />
+          required />
       </div>
       <div>
         <input @change="onFileChange" type="file" id="file" accept="image/*" required />
       </div>
       <button class="w-full rounded-[30px] bg-lime-600 hover:bg-lime-900 text-[20px] py-2" type="submit">
-        Yuklash
+        {{ $t('yuklash') }}
       </button>
     </form>
     <p v-if="successMessage" style="color: green">{{ successMessage }}</p>
@@ -41,7 +41,7 @@ export default {
       const formData = new FormData();
       formData.append("name", courtName.value);
       formData.append("file", file.value);
-      formData.append("courtsId", +id); 
+      formData.append("courtsId", +id);
 
       try {
 
