@@ -13,7 +13,7 @@
             </button>
             <button @click="isEditing ? updateFile() : uploadFile()"
               class="bg-[#2196f3] border-none rounded-[5px] cursor-pointer px-9 py-[10px] text-white hover:bg-[#1e88e5]">
-              {{ isEditing ? 'Yangilash' : 'Yuklash' }}
+              {{ $t('yuklash') }}
             </button>
           </div>
         </div>
