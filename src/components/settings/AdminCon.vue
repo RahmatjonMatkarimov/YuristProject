@@ -58,11 +58,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import axios from 'axios';
 import { useRoute } from 'vue-router';
 import { URL } from "@/auth/url.js";
-
+const isLoading = inject('isLoading');
 const route = useRoute();
 const id = route.params.id;
 const newId = parseInt(id);
@@ -75,7 +75,8 @@ const data = ref({
 });
 
 const fetchPermissions = async () => {
-  try {
+    isLoading.value = true;
+    try {
     const token = localStorage.getItem("token");
     const response = await axios.get(`${URL}/permissions/user/${newId}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -88,11 +89,14 @@ const fetchPermissions = async () => {
     }
   } catch (error) {
     console.error('Failed to fetch permissions:', error);
+  } finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 
 const togglePermission = async (permission) => {
-  try {
+    isLoading.value = true;
+    try {
     const updatedValue = !data.value[permission];
 
     const response = await axios.put(`${URL}/permissions/${newId}`,
@@ -105,6 +109,8 @@ const togglePermission = async (permission) => {
     }
   } catch (error) {
     console.error(`Failed to update ${permission}:`, error);
+  } finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 

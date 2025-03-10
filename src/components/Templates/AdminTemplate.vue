@@ -40,12 +40,12 @@
             {{ userInfo.dadname }}</h1>
           <h1 class="p-2 pr-10 m-2 capitalize rounded border">{{ $t('foydalanuvchi_telefon') }}: +998-{{
             formatPhoneNumber(userInfoLotin.phone)
-          }}</h1>
+            }}</h1>
           <h1 class="p-2 pr-10 m-2 rounded capitalize border">{{ $t('foydalanuvchi_jshir') }}:
             {{ userInfoLotin.uniqueCode }}</h1>
           <h1 class="p-2 pr-10 m-2 rounded capitalize border">{{ $t('id_karta_raqami') }}: {{
             userInfoLotin.userCode
-          }}</h1>
+            }}</h1>
           <h1 class="p-2 pr-10 m-2 rounded capitalize border">{{ $t('tugilgan_kuni') }}: {{ formattedBirthday }}</h1>
           <button @click="go(userInfoLotin.id)"
             class="border capitalize bg-lime-600 p-2 m-2 text-black rounded hover:bg-lime-700 duration-500">
@@ -86,34 +86,34 @@
             </span>
           </div>
           <div class="absolute top-1 right-1">
-          <div class="relative">
-            <button @click="toggleDropdown"
-              class="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 rounded-lg px-4 py-2 shadow-md">
-              <img :src="selectedFlag" class="w-5 rounded h-5" />
-              <span>{{ selectedLabel }}</span>
-              <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': isOpen }" fill="currentColor"
-                viewBox="0 0 20 20">
-                <path fill-rule="evenodd"
-                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                  clip-rule="evenodd"></path>
-              </svg>
-            </button>
+            <div class="relative">
+              <button @click="toggleDropdown"
+                class="flex items-center gap-2 bg-blue-700 hover:bg-blue-800 rounded-lg px-4 py-2 shadow-md">
+                <img :src="selectedFlag" class="w-5 rounded h-5" />
+                <span>{{ selectedLabel }}</span>
+                <svg class="w-4 h-4 transition-transform transform" :class="{ 'rotate-180': isOpen }"
+                  fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </button>
 
-            <div v-if="isOpen"
-              class="absolute right-0 mt-2 w-40 bg-blue-700 border rounded-lg shadow-md overflow-hidden transition-opacity">
-              <div @click="setLanguage('uzb', 'Uz', '/uzb.png')"
-                class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-blue-800 transition">
-                <img src="/uzb.png" class="w-5 rounded h-5" />
-                <span>Uz</span>
-              </div>
-              <div @click="setLanguage('ўзб', 'Уз', '/uzb.png')"
-                class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-blue-800 transition">
-                <img src="/uzb.png" class="w-5 rounded h-5" />
-                <span>Уз</span>
+              <div v-if="isOpen"
+                class="absolute right-0 mt-2 w-40 bg-blue-700 border rounded-lg shadow-md overflow-hidden transition-opacity">
+                <div @click="setLanguage('uzb', 'Uz', '/uzb.png')"
+                  class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-blue-800 transition">
+                  <img src="/uzb.png" class="w-5 rounded h-5" />
+                  <span>Uz</span>
+                </div>
+                <div @click="setLanguage('ўзб', 'Уз', '/uzb.png')"
+                  class="flex items-center gap-2 px-4 py-2 cursor-pointer hover:bg-blue-800 transition">
+                  <img src="/uzb.png" class="w-5 rounded h-5" />
+                  <span>Уз</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
       </div>
       <div v-if="dat === 'datalotin'" class="bg-blue-800 flex h-[200px] p-2">
@@ -154,12 +154,12 @@
             {{ userInfoLotin.dadname }}</h1>
           <h1 class="p-2 pr-10 m-2 capitalize rounded border">{{ $t('foydalanuvchi_telefon') }}: +998-{{
             formatPhoneNumber(userInfoLotin.phone)
-          }}</h1>
+            }}</h1>
           <h1 class="p-2 pr-10 m-2 rounded capitalize border">{{ $t('foydalanuvchi_jshir') }}:
             {{ userInfoLotin.uniqueCode }}</h1>
           <h1 class="p-2 pr-10 m-2 rounded capitalize border">{{ $t('id_karta_raqami') }}: {{
             userInfoLotin.userCode
-          }}</h1>
+            }}</h1>
           <h1 class="p-2 pr-10 m-2 rounded capitalize border">{{ $t('tugilgan_kuni') }}: {{ formattedBirthday }}</h1>
           <button @click="go(userInfoLotin.id)"
             class="border capitalize bg-lime-600 p-2 m-2 text-black rounded hover:bg-lime-700 duration-500">
@@ -255,6 +255,7 @@ const selectedFlag = ref("/uzb.png");
 const selectedLabel = ref("Uz");
 const dat = ref("datalotin");
 provide("dat", dat);
+const isLoading = inject('isLoading');
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
@@ -321,8 +322,8 @@ const gochat1 = (id) => router.push(`/chat/${id}`);
 if (!newId || isNaN(newId)) {
   console.error("ID топилмади ёки нотўғри форматда.");
 }
-
 const getData = async () => {
+  isLoading.value = true; // 🔹 Ma'lumot yuklanayotganini belgilash
   try {
     const token = localStorage.getItem("token");
     if (!token) throw new Error("Токен топилмади. Фойдаланувчи авторизациядан ўтмаган.");
@@ -337,7 +338,7 @@ const getData = async () => {
         userInfo.value[key] = translateText(userInfo.value[key]);
       }
     }
-    userInfoLotin.value = response.data
+    userInfoLotin.value = response.data;
     const onlineResponse = await axios.get(`${URL}/${localStorage.getItem('role')}/online`, {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -349,7 +350,7 @@ const getData = async () => {
     console.error("Хатолик:", err.response?.data || err.message);
     error.value = "Маълумотларни юклашда хатолик юз берди.";
   } finally {
-    loading.value = false;
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 

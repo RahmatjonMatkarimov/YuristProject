@@ -9,17 +9,24 @@
       <div class="min-h-[450px] max-w-[650px] shadow-2xl text-center m-5 p-9 w-full bg-blue-500 rounded-[25px]">
         <h1 class="text-[45px]">Tizimga kirish</h1>
         <form @submit.prevent="setData">
-          <input v-model="username" class="rounded-[10px] shadow-2xl w-full text-black my-2 p-2 mt-7 outline-none" placeholder="username" type="text" required />
+          <input v-model="username" class="rounded-[10px] shadow-2xl w-full text-black my-2 p-2 mt-7 outline-none"
+            placeholder="username" type="text" required />
           <div class="relative">
-            <input v-model="password" :type="showPassword ? 'text' : 'password'" class="w-full text-black p-2 my-2 border rounded-lg pr-10" placeholder="Parol" />
-            <button type="button" @click="showPassword = !showPassword" class="absolute inset-y-0 right-3 flex items-center">
+            <input v-model="password" :type="showPassword ? 'text' : 'password'"
+              class="w-full text-black p-2 my-2 border rounded-lg pr-10" placeholder="Parol" />
+            <button type="button" @click="showPassword = !showPassword"
+              class="absolute inset-y-0 right-3 flex items-center">
               <img :src="showPassword ? '/eyes.png' : '/eye.png'" alt="Ko'rinishni almashtirish" class="w-5 h-5" />
             </button>
           </div>
-          <input v-model="tell" class="rounded-[10px] shadow-2xl w-full text-black my-2 p-2 outline-none" placeholder="telefon raqam" type="number" required />
-          <input v-model="jshshr" class="rounded-[10px] shadow-2xl w-full text-black my-2 p-2 outline-none" placeholder="JSHSHR" type="number" required />
+          <input v-model="tell" class="rounded-[10px] shadow-2xl w-full text-black my-2 p-2 outline-none"
+            placeholder="telefon raqam" type="number" required />
+          <input v-model="jshshr" class="rounded-[10px] shadow-2xl w-full text-black my-2 p-2 outline-none"
+            placeholder="JSHSHR" type="number" required />
         </form>
-        <button @click="setData" class="bg-lime-600 shadow-2xl hover:bg-lime-700 duration-500 px-14 rounded-[25px] mt-12 py-3">Tizimga Kirish</button>
+        <button @click="setData"
+          class="bg-lime-600 shadow-2xl hover:bg-lime-700 duration-500 px-14 rounded-[25px] mt-12 py-3">Tizimga
+          Kirish</button>
         <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
       </div>
       <div class="bg-red-700 flex justify-center items-start gap-10 rounded-[20px] p-10">
@@ -58,10 +65,10 @@
 
 <script setup>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 import { useRouter } from "vue-router";
 import { URL } from "../auth/url";
-
+const isLoading = inject('isLoading');
 const password = ref("");
 const username = ref("");
 const jshshr = ref("");
@@ -83,16 +90,19 @@ const setData = async () => {
     error.value = "Telefon orqali tizimga kirish taqiqlangan!";
     return;
   }
+
+  isLoading.value = true; // Yuklanishni boshlash
   try {
     const res = await axios.post(url, {
       username: username.value.trim(),
       password: password.value.trim(),
     });
+
     id.value = res.data.data.user.id;
     localStorage.setItem("id", res.data.data.user.id);
-    
+
     if (res.data.statusCode === 200) {
-      const token = res.data.data.token;  
+      const token = res.data.data.token;
       const role = res.data.data.user.role;
       const expirationTime = new Date().getTime() + 3600000;
       localStorage.setItem("token", token);
@@ -100,10 +110,10 @@ const setData = async () => {
       localStorage.setItem("role", role);
 
       if (!role) {
-        error.value = "Foydalanuvchi roli aniqlanmadi.";  
+        error.value = "Foydalanuvchi roli aniqlanmadi.";
       } else if (typeof role !== "string") {
         error.value = "Noto‘g‘ri rol formati.";
-      } else if (["admin", "bigAdmin", "yurist","manager"].includes(role.trim())) {
+      } else if (["admin", "bigAdmin", "yurist", "manager"].includes(role.trim())) {
         router.push(`/admin`);
       } else {
         error.value = "Bu rolda tizimga kirish taqiqlangan.";
@@ -111,6 +121,8 @@ const setData = async () => {
     }
   } catch (err) {
     error.value = err.response?.data?.message || "Login yoki parol noto'g'ri.";
+  } finally {
+    isLoading.value = false; // Yuklanish tugashi
   }
 };
 

@@ -52,6 +52,7 @@ const translateText = (text) => {
 };
 
 const getData = async () => {
+  isLoading.value = true;
   try {
     const response = await fetch(`${URL}/partners`);
     if (response.ok) {

@@ -152,6 +152,7 @@ const uploadCourt = async () => {
   const formData = new FormData();
   formData.append("name", courtName.value);
   formData.append("file", file.value);
+  isLoading.value = true;
 
   try {
     await axios.post(`${URL}/partners`, formData, {
@@ -167,13 +168,15 @@ const uploadCourt = async () => {
     showModal.value = false;
   } catch (error) {
     errorMessage.value = "Xatolik yuz berdi!";
+  } finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 
 
 const datakril = ref([]);
 const dat = inject('dat');
-
+const isLoading = inject('isLoading');
 const translitMap = {
   "ch": "ч", "sh": "ш", "yo": "ё", "yu": "ю", "ya": "я", "ye": "е", "oʻ": "ў", "g‘": "ғ",
   "a": "а", "b": "б", "d": "д", "e": "э", "f": "ф", "g": "г", "h": "ҳ", "i": "и", "j": "ж",
@@ -191,6 +194,8 @@ const translateText = (text) => {
 };
 
 const getData = async () => {
+  isLoading.value = true;
+
   try {
     const response = await fetch(`${URL}/partners`);
     if (response.ok) {
@@ -199,7 +204,7 @@ const getData = async () => {
         .sort((a, b) => a.id - b.id)
         .map(item => ({
           ...item,
-          translatedName: translateText(item.name) 
+          translatedName: translateText(item.name)
         }));
       data.value = result; di
     } else {
@@ -207,11 +212,14 @@ const getData = async () => {
     }
   } catch (error) {
     console.error("Xatolik:", error);
+  } finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 
 const removeSelectedItems = async () => {
   if (!Id.value) return;
+  isLoading.value = true;
 
   try {
     const response = await fetch(`${URL}/partners/${Id.value}`, {
@@ -226,6 +234,8 @@ const removeSelectedItems = async () => {
     }
   } catch (error) {
     console.error("Xatolik:", error);
+  } finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 
@@ -241,6 +251,7 @@ const updateCourt = async () => {
   const formData = new FormData();
   formData.append("name", courtName.value);
   formData.append("file", file.value);
+  isLoading.value = true;
 
   try {
     const response = await axios.put(`${URL}/partners/${PutId.value}`, formData, {
@@ -263,6 +274,8 @@ const updateCourt = async () => {
     }
   } catch (error) {
     errorMessage.value = "Xatolik yuz berdi: " + error.message;
+  } finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 

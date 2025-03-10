@@ -36,11 +36,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watchEffect } from "vue";
+import { ref, onMounted, watchEffect, inject } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import { URL } from "@/auth/url.js";
-
+const isLoading = inject('isLoading');
 const route = useRoute();
 const id = ref(null);
 const admins = ref([]);
@@ -49,7 +49,8 @@ const qwe = ref(false);
 const selectedAdminId = ref(null);
 
 const getAdminsAndOthers = async () => {
-  try {
+    isLoading.value = true;
+    try {
     const token = localStorage.getItem("token");
     const config = {
       headers: {
@@ -70,6 +71,8 @@ const getAdminsAndOthers = async () => {
     updateAdminStatuses();
   } catch (error) {
     console.error("Xatolik (getAdminsAndOthers):", error);
+  } finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 
@@ -77,7 +80,8 @@ getAdminsAndOthers();
 
 
 const getAllowedUsers = async (courtId) => {
-  try {
+    isLoading.value = true;
+    try {
     const response = await axios.get(`${URL}/allowed-users/${courtId}`);
     allowedUsers.value = response.data;
     updateAdminStatuses();
@@ -107,11 +111,14 @@ const addUserToAllowed = async () => {
 };
 
 const removeUserFromAllowed = async (admin) => {
-  try {
+    isLoading.value = true;
+    try {
     await axios.delete(`${URL}/allowed-users/${id.value}/${admin.id}`);
     getAllowedUsers(id.value);
   } catch (error) {
     console.error("Xatolik (removeUserFromAllowed):", error);
+  } finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 
