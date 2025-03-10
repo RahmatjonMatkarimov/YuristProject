@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex mt-10 md:mt-12 justify-between text-white items-center px-3 w-full h-[70px] md:h-[150px] lg:h-[200px] opacity-[88%] md:relative bg-[#0033FF]">
+    class="flex mt-10 md:mt-12 justify-between text-white items-center px-3 w-full h-[70px] md:h-[150px] lg:h-[200px] opacity-[88%] relative bg-[#0033FF]">
     <div id="particles-js" class="absolute top-0 left-0 w-full h-full"></div>
     <div class="flex items-center">
       <div class="flex justify-center relative sm:ml-2 sm:mx-10 mt-2 z-10">
@@ -39,10 +39,14 @@
       </div>
     </div>
     <button @click="router.push('/CommonerLogin')"
-      class="absolute top-1 text-[12px] lg:text-[16px] right-1 lg:right-4 lg:top-4 bg-[#1c9c32] px-6 py-2 rounded-2xl z-50 hover:bg-[#268a37] duration-500">
+      class="absolute hidden md:block top-1 text-[12px] lg:text-[16px] right-1 lg:right-4 lg:top-4 bg-[#1c9c32] px-6 py-2 rounded-2xl z-50 hover:bg-[#268a37] duration-500">
       {{ $t('kabinetga_kirish') }}
     </button>
   </div>
+  <button @click="router.push('/CommonerLogin')"
+    class="absolute md:hidden  top-1 text-[12px] lg:text-[16px] right-1 lg:right-4 lg:top-4 bg-[#1c9c32] px-6 py-2 rounded-2xl z-50 hover:bg-[#268a37] duration-500">
+    {{ $t('kabinetga_kirish') }}
+  </button>
 </template>
 
 <script setup>

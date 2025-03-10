@@ -1,18 +1,19 @@
 <template>
   <ParticlesHeader />
   <div v-if="data.length == 0" class="text-black flex flex-col justify-center mt-16 items-center">
-    <div class="rounded-[20px] max-w-[110rem] p-10 mb-16 opacity-[98%] w-[1200px] shadow-2xl bg-gray-300">
-      <div v-if="dat === 'datalotin'" v-for="(item, index) in ServiceData" :key="item.id"
-        class="flex items-center h-[70px] text-xl justify-between mb-1 p-2 mt-[14px] shadow-2xl rounded-[10px] hover:bg-lime-500 duration-300 border-blue-700 border-2 bg-white cursor-pointer">
-        <b class="text-[20px] text-black w-[35px] text-center">{{ index + 1 }}</b>
-        <img width="25px" class="mr-5" src="../../../../public/word.png" alt="" />
-        <h1 class="text-black flex-1" @click="goToCard(item.id)">{{ item.fileName }}</h1>
-      </div>
-      <div v-if="dat === 'datakril'" v-for="(item, index) in ServiceData" :key="item.id"
+    <div
+      class="rounded-[20px] xl:max-w-[80rem] w-full 2xl:max-w-[90rem] p-10 mb-16 opacity-[98%] shadow-2xl bg-gray-300 ">
+      <div v-if="dat == 'datakril'" v-for="(item, index) in ServiceData" :key="item.id"
         class="flex items-center h-[70px] text-xl justify-between mb-1 p-2 mt-[14px] shadow-2xl rounded-[10px] hover:bg-lime-500 duration-300 border-blue-700 border-2 bg-white cursor-pointer">
         <b class="text-[20px] text-black w-[35px] text-center">{{ index + 1 }}</b>
         <img width="25px" class="mr-5" src="../../../../public/word.png" alt="" />
         <h1 class="text-black flex-1" @click="goToCard(item.id)">{{ translateText(item.fileName) }}</h1>
+      </div>
+      <div v-if="dat == 'datalotin'" v-for="(item, index) in ServiceData" :key="item.id"
+        class="flex items-center  min-h-[70px] md:text-xl justify-between mb-1 p-2 mt-[14px] shadow-2xl rounded-[10px] hover:bg-lime-500 duration-300 border-blue-700 border-2 bg-white cursor-pointer">
+        <b class="text-[20px] text-black w-[35px] text-center">{{ index + 1 }}</b>
+        <img width="25px" class="mr-5" src="../../../../public/word.png" alt="" />
+        <h1 class="text-black flex-1" @click="goToCard(item.id)">{{ item.fileName }}</h1>
       </div>
     </div>
   </div>
@@ -93,7 +94,7 @@ const getData = async () => {
       data.value = result.applications
         .filter(item => item.status == 'active')
         .sort((a, b) => a.id - b.id);
-      ServiceData.value = result.files.sort((a, b) => a.id - b.id); 
+      ServiceData.value = result.files.sort((a, b) => a.id - b.id);
     }
   } catch (error) {
     console.error("Xatolik:", error);
