@@ -1,20 +1,20 @@
 <template>
   <div
-    class="flex mt-12 text-white items-center px-3 w-full h-[100px] md:h-[150px] lg:h-[200px] opacity-[88%] relative bg-[#0033FF]">
+    class="flex mt-12 justify-between text-white items-center px-3 w-full h-[150px] md:h-[150px] lg:h-[200px] opacity-[88%] relative bg-[#0033FF]">
     <div id="particles-js" class="absolute top-0 left-0 w-full h-full"></div>
     <div class="flex items-center">
-      <div class="flex justify-center relative ml-2 sm:mx-10 mt-2 z-10">
+      <div class="flex justify-center relative sm:ml-2 sm:mx-10 mt-2 z-10">
         <img src="/logo.png" class="w-[200px] md:w-[250px] lg:w-[300px]" alt="Logo" />
       </div>
-      <b class="lg:text-[20px] 2xl:text-[23px] md:text-[16px] text-[10px] w-[80%] md:w-[60%] lg:w-[35%] z-0 uppercase"
+      <b class="lg:text-[18px] hidden lg:block 2xl:text-[23px] text-[10px] w-[80%] md:w-[60%] lg:w-[35%] z-0 uppercase"
         style="text-shadow: 2px 2px 50px white;">
         {{ $t('header') }}
       </b>
     </div>
-    <div class="mr-[140px]">
+    <div class="lg:mr-[140px]">
       <div>
         <span v-for="(lang, index) in languages" :key="index" @click="changeLanguage(lang.code)"
-          class="mx-1 text-[22px] hover:text-gray-300 duration-500 relative z-50 cursor-pointer">
+          class="mx-1 lg:text-[22px] hover:text-gray-300 duration-500 relative z-50 cursor-pointer">
           {{ lang.label }}
         </span>
       </div>
@@ -38,7 +38,8 @@
         Hech narsa topilmadi
       </div>
     </div>
-    <button @click="router.push('/CommonerLogin')" class="absolute right-4 top-4 bg-[#1c9c32] px-6 py-2 rounded-2xl z-50 hover:bg-[#268a37] duration-500">
+    <button @click="router.push('/CommonerLogin')"
+      class="absolute top-1 text-[12px] lg:text-[16px] right-1 lg:right-4 lg:top-4 bg-[#1c9c32] px-6 py-2 rounded-2xl z-50 hover:bg-[#268a37] duration-500">
       {{ $t('kabinetga_kirish') }}
     </button>
   </div>
@@ -87,7 +88,7 @@ const getData = async () => {
 
     const [courts, service, applications] = await Promise.all([
       axios.get(`${URL}/courts`, config),
-      axios.get(`${URL}/service`, config),
+      axios.get(`${URL}/services`, config),
       axios.get(`${URL}/applications`, config),
     ]);
     searchdata.value = [...courts.data, ...service.data, ...applications.data].filter(item => item.status === "active");

@@ -3,8 +3,7 @@
     <div class="flex relative justify-center mb-16  items-center">
       <h1 style="text-shadow: 0 0 5px #fff,0 0 10px #fff;"
         class="text-black text-[40px] font-bold text-center bg-lime-500 border-[3px] border-black rounded-lg py-2 px-[100px]">
-        {{ $t('hodim_majburiyatlari') }} <span v-if="Count" class="border-b-4 px-1 border-black text-black">{{ Count
-          }}</span> </h1>
+        {{ $t('hodim_majburiyatlari') }} </h1>
       <button v-if="data === 'manager'" @click="showModal = true"
         class="absolute bg-green-600 ml-[790px] text-white py-2 px-4 rounded-lg shadow-md hover:bg-lime-600 duration-300 transition">
         {{ $t('create') }}
@@ -15,7 +14,7 @@
         <input v-model="searchQuery" type="text" :placeholder="$t('qidiruv')"
           class="mb-4 border-2 p-2 rounded-lg text-black " />
       </div>
-      <button v-if="data === 'yurist'" @click="toggleDeleteMode"
+      <button v-if="data === 'yurist' || data === 'bigAdmin'" @click="toggleDeleteMode"
         class="bg-blue-500 text-white mb-4 mr-2 px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition">
         {{ deleteMode ? $t('cancel_delete') : $t('enable_delete') }}
       </button>
@@ -301,13 +300,13 @@ const deleteSelectedFiles = async () => {
   }
 };
 const openFile = (file) => {
-  pdfUrl.value = ''
+  pdfUrl.value = '';
   setTimeout(() => {
-    pdfUrl.value = `${URL}/uploads/${file.filePath}?t=${new Date().getTime()}`
-    selectedFileId.value = file.id
-    showPdfModal.value = true
-  }, 100)
-}
+    pdfUrl.value = `${URL}${file.filePath}`;
+    selectedFileId.value = file.id;
+    showPdfModal.value = true;
+  }, 100);
+};
 
 onMounted(() => {
   getdata();

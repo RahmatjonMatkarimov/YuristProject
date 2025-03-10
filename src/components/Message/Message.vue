@@ -30,7 +30,8 @@
                     <img v-else-if="isImage(replyMessages[msg.replyToMessageId]?.attachmentUrl)"
                       :src="URL + replyMessages[msg.replyToMessageId]?.attachmentUrl" class="w-24 h-24 rounded-md p-2">
                     <video v-else-if="isVideo(replyMessages[msg.replyToMessageId]?.attachmentUrl)"
-                      :src="URL + replyMessages[msg.replyToMessageId]?.attachmentUrl" class="w-24 h-24 rounded-md p-2" controls></video>
+                      :src="URL + replyMessages[msg.replyToMessageId]?.attachmentUrl" class="w-24 h-24 rounded-md p-2"
+                      controls></video>
                     <div v-else-if="replyMessages[msg.replyToMessageId]?.attachmentUrl?.endsWith('.mp3')">{{ $t('media')
                       }}</div>
                     <div v-else-if="replyMessages[msg.replyToMessageId]?.attachmentUrl?.endsWith('.pdf')"
@@ -113,7 +114,8 @@
           <h1 @click="openEmojiPicker" class="text-[35px]">🙂</h1>
           <label class="cursor-pointer text-[30px] p-2">
             <img src="../../../public/attach-file.png" width="40px" alt="attach">
-            <input type="file" @change="handleFileUpload" class="hidden" accept="image/*,audio/*,video/*,application/pdf" />
+            <input type="file" @change="handleFileUpload" class="hidden"
+              accept="image/*,audio/*,video/*,application/pdf" />
           </label>
           <input v-model="newMessage" :placeholder="$t('yozish')"
             class="flex-1 border border-gray-300 rounded-full text-black px-4 py-4 mx-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -128,17 +130,19 @@
       </div>
     </div>
   </div>
-  <div
-    class="bg-blue-800 border-[5px] border-[#ffcc00] rounded-xl mt-[200px] fixed top-0 right-0 h-[100vh] overflow-y-auto w-[460px]">
-    <div v-for="(item, index) in admins"
-      class="bg-white m-3 flex items-center hover:bg-lime-500 border-4 rounded-xl border-[#ffcc00] p-3" :key="index">
-      <h1 class="text-black text-[20px] font-bold mr-2">{{ index + 1 }}</h1>
-      <div class="w-16 h-16 mr-2 flex-shrink-0 rounded-full overflow-hidden border border-gray-300">
-        <img :src="getImageUrl(item.img)" class="w-full h-full object-cover" alt="Admin Image" />
-      </div>
-      <div>
-        <h1 class="text-[18px] capitalize text-black">{{ item.name }} {{ item.surname }}</h1>
-        <span class="text-gray-700 capitalize text-[14px]">{{ item.lavozimi }}</span>
+  <div class="bg-blue-800 border-[5px] border-[#ffcc00] rounded-xl fixed top-0 right-0 h-[100vh] w-[460px] 
+  overflow-y-auto">
+    <div class="mt-[195px] border-t-[5px] border-[#ffcc00]">
+      <div v-for="(item, index) in admins"
+        class="bg-white m-3 flex items-center hover:bg-lime-500 border-4 rounded-xl border-[#ffcc00] p-3" :key="index">
+        <h1 class="text-black text-[20px] font-bold mr-2">{{ index + 1 }}</h1>
+        <div class="w-16 h-16 mr-2 flex-shrink-0 rounded-full overflow-hidden border border-gray-300">
+          <img :src="getImageUrl(item.img)" class="w-full h-full object-cover" alt="Admin Image" />
+        </div>
+        <div>
+          <h1 class="text-[18px] capitalize text-black">{{ item.name }} {{ item.surname }}</h1>
+          <span class="text-gray-700 capitalize text-[14px]">{{ item.lavozimi }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -445,12 +449,16 @@ const handleFileUpload = (event) => {
   const validTypes = [
     'image/jpeg', 'image/png', 'image/gif', 'image/webp',
     'audio/mpeg', 'video/mp4', 'video/webm', 'video/ogg',
-    'application/pdf'
+    'application/pdf',
+    'application/msword', // .doc uchun
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document' // .docx uchun
   ];
+
   if (!validTypes.includes(file.type)) {
     console.error("Unsupported file type:", file.type);
     return;
   }
+
   if (file.size > 10 * 1024 * 1024) { // 10MB limit
     console.error("File too large:", file.size);
     return;
@@ -459,6 +467,7 @@ const handleFileUpload = (event) => {
   selectedFile.value = file;
   handleSendMessage("file");
 };
+
 
 const showContextMenu = (event, msg) => {
   contextMenuMessage.value = msg;

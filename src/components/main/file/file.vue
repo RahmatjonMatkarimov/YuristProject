@@ -28,9 +28,9 @@
       </div>
     </div>
   </div>
-  <div class="bg-gray-100 flex flex-col justify-center items-center p-6">
+  <div class="bg-gray-100 flex flex-col justify-center items-center">
     <div class="flex h-full w-full gap-3 justify-center">
-      <form @submit.prevent="submitForm" class="w-1/2">
+      <form @submit.prevent="submitForm" class="w-full max-w-[1000px]">
         <div class="bg-white shadow-md rounded-lg p-6 w-full">
           <div class="mb-6" v-if="dat === 'datalotin'">
             <div class="mt-3" v-for="(placeholder, index) in placeholders" :key="index">
@@ -150,26 +150,49 @@ const updateContent = () => {
 
 const fetchWordFile = async () => {
   try {
-    const response = await fetch(`${API_URL}/files/${id.value}`);
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const servicePromise = axios.get(`${API_URL}/services/serviceFile/${id.value}`).catch(() => null);
+    const metadataPromise = axios.get(`${API_URL}/files/${id.value}`).catch(() => null);
+    const contentPromise = axios.get(`${API_URL}/courts/serviceFile/${id.value}`).catch(() => null);
 
-    const resData = await response.json();
-    const fileResponse = await fetch(`${API_URL}${resData.filePath}`);
-    if (!fileResponse.ok) throw new Error(`HTTP error! Status: ${fileResponse.status}`);
-
+    const [serviceResponse, metadataResponse, contentResponse] = await Promise.all([
+      servicePromise,
+      metadataPromise,
+      contentPromise
+    ]);
+    if (!serviceResponse?.data && !metadataResponse?.data && !contentResponse?.data) {
+      modifiedContent.value = "<p class='text-red-500'>Hech qanday ma'lumot topilmadi</p>";
+      return;
+    }
+    const filePath = serviceResponse?.data?.filePath ||
+      metadataResponse?.data?.filePath ||
+      contentResponse?.data?.filePath;
+    if (!filePath) {
+      modifiedContent.value = "<p class='text-red-500'>File path hech qayerdan topilmadi</p>";
+      return;
+    }
+    const fileResponse = await fetch(`${API_URL}${filePath}`);
+    if (!fileResponse.ok) {
+      modifiedContent.value = "<p class='text-red-500'>Faylni olishda xato! Status: ${fileResponse.status}</p>";
+      return;
+    }
     const arrayBuffer = await fileResponse.arrayBuffer();
-    const result = await mammoth.convertToHtml({ arrayBuffer });
-    htmlContent.value = result.value;
-    modifiedContent.value = result.value;
+    const conversionResult = await mammoth.convertToHtml({ arrayBuffer });
+    htmlContent.value = conversionResult.value;
+    modifiedContent.value = conversionResult.value;
     const placeholderRegex = /\{\{([^}]+)\}\}/g;
-    const matches = [...result.value.matchAll(placeholderRegex)];
-    placeholders.value = [...new Set(matches.map((match) => match[0]))];
-    placeholders.value.forEach((placeholder) => {
+    const matches = [...conversionResult.value.matchAll(placeholderRegex)];
+    const uniquePlaceholders = [...new Set(matches.map(match => match[0]))];
+    placeholders.value = uniquePlaceholders;
+
+    uniquePlaceholders.forEach(placeholder => {
       inputValues.value[placeholder] = '';
     });
     updateContent();
   } catch (error) {
-    console.error('Error fetching file:', error.message);
+    console.error('Error fetching Word file:', {
+      message: error.message,
+      stack: error.stack
+    });
     modifiedContent.value = "<p class='text-red-500'>Faylni olishda xatolik yuz berdi!</p>";
   }
 };

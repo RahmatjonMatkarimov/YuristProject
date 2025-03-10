@@ -7,16 +7,13 @@
     <div class="max-w-[95%] mx-auto p-6 bg-white rounded-xl shadow-lg mt-10">
       <div class="flex justify-end">
         <input v-model="searchQuery" type="text" :placeholder="$t('qidiruv')"
-        class="mb-4 border-2 p-2 rounded-lg text-black " />
+          class="mb-4 border-2 p-2 rounded-lg text-black " />
       </div>
-      <button v-if="data === 'manager'" @click="toggleDeleteMode"
+      <button v-if="data === 'yurist' || data === 'bigAdmin'" @click="toggleDeleteMode"
         class="bg-blue-500 text-white mb-4 mr-2 px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition">
         {{ deleteMode ? $t('cancel_delete') : $t('enable_delete') }}
       </button>
-      <button v-if="data === 'bigAdmin'" @click="toggleDeleteMode"
-        class="bg-blue-500 text-white mb-4 mr-2 px-4 py-2 rounded-lg shadow-md hover:bg-blue-600 transition">
-        {{ deleteMode ? $t('cancel_delete') : $t('enable_delete') }}
-      </button>
+
       <button v-if="deleteMode && selectedFiles.length > 0" @click="deleteSelectedFiles"
         class="bg-red-500 text-white mb-4 px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition">
         {{ $t('remove') }}
@@ -305,13 +302,13 @@ const deleteSelectedFiles = async () => {
 };
 
 const openFile = (file) => {
-  pdfUrl.value = ''
+  pdfUrl.value = '';
   setTimeout(() => {
-    pdfUrl.value = `${URL}/uploads/${file.filePath}?t=${new Date().getTime()}`
-    selectedFileId.value = file.id
-    showPdfModal.value = true
-  }, 100)
-}
+    pdfUrl.value = `${URL}${file.filePath}`;
+    selectedFileId.value = file.id;
+    showPdfModal.value = true;
+  }, 100);
+};
 
 onMounted(() => {
   getdata();

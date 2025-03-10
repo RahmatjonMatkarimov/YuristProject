@@ -3,7 +3,7 @@ import { isAuthenticated, getRoleFromToken } from "@/auth/auth";
 
 const routes = [
     {
-        path: "/edit/:id",
+        path: "/edit/:id/:id2?",
         name: "editFile",
         component: () => import("@/components/main/file/file.vue"),
     },

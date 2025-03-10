@@ -1,7 +1,8 @@
 <template>
-  <div class="flex text-white flex-col items-center py-10">
+  <div class="flex text-white flex-col items-center pb-10">
     <div class="flex flex-col items-center mt-6 px-4">
-      <h1 class="text-2xl sm:text-4xl font-bold text-center text-blue-800 mb-6" style="text-shadow: 10px 10px 30px black;">
+      <h1 class="text-2xl sm:text-4xl font-bold text-center text-blue-800 mb-6"
+        style="text-shadow: 10px 10px 30px black;">
         {{ $t('murojaat') }}
       </h1>
       <div class="w-full bg-gray-200 rounded-lg p-6 sm:p-10">
@@ -14,14 +15,14 @@
             class="hover:bg-lime-500 duration-500 active:duration-500 bg-white border-4 border-blue-800 rounded-lg p-6">
             <div class="flex items-center gap-4">
               <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md" />
-              <h3 class="text-lg font-medium text-center text-black capitalize">{{ item.translatedName }}</h3>
+              <h3 class="md:text-lg font-medium  text-center text-black capitalize">{{ item.translatedName }}</h3>
             </div>
           </div>
           <div v-if="dat === 'datalotin'" v-for="item in data" :key="item.id" @click="goToPath(item.id)"
             class="hover:bg-lime-500 duration-500 active:duration-500 bg-white border-4 border-blue-800 rounded-lg p-6">
             <div class="flex items-center gap-4">
               <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md" />
-              <h3 class="text-lg font-medium text-center text-black capitalize">{{ item.name }}</h3>
+              <h3 class="md:text-lg font-medium  text-center text-black capitalize">{{ item.name }}</h3>
             </div>
           </div>
         </div>

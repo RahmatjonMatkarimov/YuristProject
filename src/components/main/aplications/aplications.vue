@@ -14,14 +14,14 @@
             class="relative h-full flex items-center hover:bg-lime-500 duration-500 bg-white border-4 border-blue-800 rounded-lg p-6">
             <div class="flex items-center gap-4">
               <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 rounded-md" />
-              <h3 class="text-lg font-medium text-center text-black capitalize">{{ item.translatedName }}</h3>
+              <h3 class="md:text-lg font-medium text-center text-black capitalize">{{ item.translatedName }}</h3>
             </div>
           </div>
           <div v-if="dat === 'datalotin'" v-for="item in data" :key="item.id" @click="goToPath(item.id)"
             class="relative h-full flex items-center hover:bg-lime-500 duration-500 bg-white border-4 border-blue-800 rounded-lg p-6">
             <div class="flex items-center gap-4">
               <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 rounded-md" />
-              <h3 class="text-lg font-medium text-center text-black capitalize">{{ item.name }}</h3>
+              <h3 class="md:text-lg font-medium text-center text-black capitalize">{{ item.name }}</h3>
             </div>
           </div>
         </div>
@@ -62,7 +62,7 @@ const translateText = (text) => {
 
 const getData = async () => {
   try {
-    const response = await fetch(`${URL}/service/${id1}`);
+    const response = await fetch(`${URL}/services/${id1}`);
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
     const result = await response.json();
 

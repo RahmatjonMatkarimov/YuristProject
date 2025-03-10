@@ -14,14 +14,14 @@
             class="relative hover:bg-lime-500 duration-500 bg-white border-4 border-blue-800 rounded-lg p-6">
             <div class="flex items-center gap-4">
               <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md" />
-              <h3 class="text-lg font-medium text-center text-black capitalize">{{ translateText(item.name) }}</h3>
+              <h3 class="md:text-lg font-medium text-center text-black capitalize">{{ translateText(item.name) }}</h3>
             </div>
           </div>
           <div v-if="dat === 'datalotin'" v-for="item in data" :key="item.id" @click="goToPath(item.id)"
             class="relative hover:bg-lime-500 duration-500 bg-white border-4 border-blue-800 rounded-lg p-6">
             <div class="flex items-center gap-4">
               <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md" />
-              <h3 class="text-lg font-medium text-center text-black capitalize">{{ item.name }}</h3>
+              <h3 class="md:text-lg font-medium text-center text-black capitalize">{{ item.name }}</h3>
             </div>
           </div>
         </div>

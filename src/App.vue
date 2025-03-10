@@ -1,4 +1,12 @@
 <template>
+
+<div class="fixed h-[100vh] z-50 flex justify-center items-center right-0">
+  <div class="bg-blue-600 p-[10px] rounded-tl-xl rounded-bl-xl flex flex-col gap-6">
+    <img  src="../public/telephone.png" alt="" class="cursor-pointer w-10">
+    <img  src="../public/keyboard.png" alt="" class="cursor-pointer w-10">
+  </div>
+</div>
+
     <ErrorComponent v-if="errorCode" :errorCode="errorCode" />
     <RouterView v-else />
 </template>

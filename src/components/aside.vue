@@ -46,19 +46,21 @@ const filteredMenu = computed(() => {
 </script>
 
 <template>
-  <aside class="aside-nav bg-blue-800">
-    <router-link :to="item.to" v-for="(item, index) in filteredMenu" :key="index" class="mb-1 li"
-      :class="{ 'active': route.path === item.to }">
-      <b class="text-black block w-[30px]">{{ index + 1 }}</b>
-      <h1 class="text-black">
-        {{ item.label }}
-      </h1>
-    </router-link>
-    <div @click="open()" class="text-black block li">
-      <b class="text-black block w-[30px]">{{ filteredMenu.length + 1 }}</b>
-      <h1 class="text-black">
-        github
-      </h1>
+  <aside class="overflow-y-auto aside-nav bg-blue-800">
+    <div class="mt-[200px]">
+      <router-link :to="item.to" v-for="(item, index) in filteredMenu" :key="index" class="mb-1 li"
+        :class="{ 'active': route.path === item.to }">
+        <b class="text-black block w-[30px]">{{ index + 1 }}</b>
+        <h1 class="text-black">
+          {{ item.label }}
+        </h1>
+      </router-link>
+      <div @click="open()" class="text-black block li">
+        <b class="text-black block w-[30px]">{{ filteredMenu.length + 1 }}</b>
+        <h1 class="text-black">
+          github
+        </h1>
+      </div>
     </div>
   </aside>
 </template>
@@ -69,7 +71,6 @@ const filteredMenu = computed(() => {
   height: 100vh;
   color: black;
   position: fixed;
-  top: 200px;
 }
 
 .li {
