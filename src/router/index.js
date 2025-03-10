@@ -10,6 +10,7 @@ const routes = [
     { path: "/CommonerLogin", name: "CommonerLogin", component: () => import("@/components/filePage/fileLogin.vue") },
     { path: "/fileProfile/:id", name: "fileProfile", component: () => import("@/components/filePage/fileProfile.vue") },
     { path: "/", name: "home", component: () => import("@/views/Home.vue") },
+    { path: "/view-file/:id", name: "PDF", component: () => import("@/views/pdfViwer.vue") },
     { path: "/login", name: "login", component: () => import("@/components/login.vue") },
     { path: "/path/:id", name: "pathId", component: () => import("@/components/main/path/path.vue") },
     { path: "/service/:id", name: "service", component: () => import("@/components/main/file/file.vue") },

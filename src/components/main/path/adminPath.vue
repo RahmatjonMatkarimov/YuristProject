@@ -116,7 +116,7 @@
         {{ $t('create') }}
       </button>
       <button @click="toggleModal" class="text-lg font-medium py-2 px-4 bg-lime-500 hover:bg-lime-600 rounded-lg">
-        {{ $t("bo'lim yaratish") }}
+        {{ $t("bolim_yaratish") }}
       </button>
     </div>
     <div v-if="data.length == 0" class="text-black flex flex-col justify-center mt-16 items-center">

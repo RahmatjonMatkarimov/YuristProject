@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex mt-12 justify-between text-white items-center px-3 w-full h-[70px] md:h-[150px] lg:h-[200px] opacity-[88%] md:relative bg-[#0033FF]">
+    class="flex mt-10 md:mt-12 justify-between text-white items-center px-3 w-full h-[70px] md:h-[150px] lg:h-[200px] opacity-[88%] md:relative bg-[#0033FF]">
     <div id="particles-js" class="absolute top-0 left-0 w-full h-full"></div>
     <div class="flex items-center">
       <div class="flex justify-center relative sm:ml-2 sm:mx-10 mt-2 z-10">

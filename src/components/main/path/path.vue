@@ -1,6 +1,22 @@
 <template>
   <Header />
-  <div class="flex flex-col items-center py-10">
+  <div v-if="data.length == 0" class="text-black flex flex-col justify-center mt-16 items-center">
+    <div class="rounded-[20px] max-w-[110rem] p-10 mb-16 opacity-[98%] w-[1200px] shadow-2xl bg-gray-300">
+      <div v-if="dat === 'datalotin'" v-for="(item, index) in ServiceData" :key="item.id"
+        class="flex items-center h-[70px] text-xl justify-between mb-1 p-2 mt-[14px] shadow-2xl rounded-[10px] hover:bg-lime-500 duration-300 border-blue-700 border-2 bg-white cursor-pointer">
+        <b class="text-[20px] text-black w-[35px] text-center">{{ index + 1 }}</b>
+        <img width="25px" class="mr-5" src="../../../../public/word.png" alt="" />
+        <h1 class="text-black flex-1" @click="goToCard(item.id)">{{ item.fileName }}</h1>
+      </div>
+      <div v-if="dat === 'datakril'" v-for="(item, index) in ServiceData" :key="item.id"
+        class="flex items-center h-[70px] text-xl justify-between mb-1 p-2 mt-[14px] shadow-2xl rounded-[10px] hover:bg-lime-500 duration-300 border-blue-700 border-2 bg-white cursor-pointer">
+        <b class="text-[20px] text-black w-[35px] text-center">{{ index + 1 }}</b>
+        <img width="25px" class="mr-5" src="../../../../public/word.png" alt="" />
+        <h1 class="text-black flex-1" @click="goToCard(item.id)">{{ translateText(item.fileName) }}</h1>
+      </div>
+    </div>
+  </div>
+  <div v-if="data.length" class="flex flex-col items-center py-10">
     <div class="flex flex-col items-center mt-6 px-4">
       <h1 class="text-2xl sm:text-4xl font-bold text-center text-blue-800 mb-6">
         O'zbekiston Respublikasi hududida sud tizimiga murojaat qilish tartibi
@@ -59,20 +75,24 @@ const translateText = (text) => {
   }
   return translated;
 };
+const ServiceData = ref([]);
 
 const getData = async () => {
   try {
     const response = await fetch(`${url}/${id}`);
     if (response.ok) {
       const result = await response.json();
-      data.value = result.services
+      data.value = (result.services)
         .sort((a, b) => a.id - b.id)
         .filter(item => item.status === "active");
-    };
+      ServiceData.value = (result.files)
+    } else {
+      console.error("Ma'lumotlarni olishda xatolik:", response.statusText);
+    }
   } catch (error) {
     console.error("Xatolik:", error);
   }
-}
+};
 const getImageUrl = (filename) => `${imageBaseUrl}/${filename}`;
 
 const goToPath = (id) => {

@@ -134,31 +134,34 @@
           </button>
         </div>
       </div>
-      <div v-if="showPdfModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-4xl flex flex-col items-end">
-          <div class="flex pb-2 space-x-3">
+      <div v-if="showPdfModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-30">
+        <div
+          class="bg-white p-4 rounded-lg shadow-lg w-full max-w-4xl flex flex-col items-end transition-all duration-300"
+          :class="{ 'w-screen h-screen max-w-none rounded-none': isFullScreen }">
+          <div class="flex space-x-2 mb-4">
             <button v-if="data === 'yurist'" @click="updateeFile('signaturePending')"
-              class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition">
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition">
               {{ $t('Imzolash_uchun_yuborish') }}
             </button>
             <button v-if="data === 'bigAdmin'" @click="updateFile()"
-              class="bg-blue-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-blue-700 transition">
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition">
               {{ $t('Imzolash') }}
             </button>
             <button v-if="data === 'bigAdmin' || data === 'yurist'" @click="toggleModal"
-              class="bg-yellow-400 text-black px-4 py-2 rounded-lg shadow-md hover:bg-yellow-500 transition">
+              class="px-4 py-2 bg-yellow-400 text-black rounded-lg shadow-md hover:bg-yellow-500 transition">
               {{ $t('Qayta') }}
             </button>
             <button v-if="data === 'bigAdmin' || data === 'yurist'" @click="toggleModas"
-              class="bg-red-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700 transition">
+              class="px-4 py-2 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 transition">
               {{ $t('Rad') }}
             </button>
-            <button @click="showPdfModal = false"
-              class="bg-gray-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-600 transition">
-              {{ $t('yopish') }}
-            </button>
+            <img src="/interface.png" @click="isFullScreen = !isFullScreen"
+              class="w-[50px] p-2 bg-gray-500 rounded-lg shadow-md hover:bg-gray-600 transition cursor-pointer" />
+            <img src="/reject.png" @click="showPdfModal = !showPdfModal"
+              class="w-[50px] p-2 bg-gray-500 rounded-lg shadow-md hover:bg-gray-600 transition cursor-pointer" />
           </div>
-          <iframe :src="pdfUrl" class="w-full h-[600px] border-none"></iframe>
+          <iframe :src="pdfUrl" class="w-full border-none transition-all duration-300"
+            :class="isFullScreen ? 'h-full' : 'h-[600px]'"></iframe>
         </div>
       </div>
       <div v-if="qwen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30">
@@ -189,6 +192,7 @@ const pdfUrl = ref('')
 const selectedFileId = ref(null)
 const dat = inject('dat')
 const asd = ref(false)
+const isFullScreen = ref(false)
 const asds = ref(false)
 const massage = ref('')
 const massages = ref('')

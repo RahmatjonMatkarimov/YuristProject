@@ -1,11 +1,11 @@
 <template>
   <div class="flex justify-end">
-    <div class="clock-container mr-2 p-[10px] flex sm:p-[15px] md:p-[20px]  md:text-[15px] mt-2">
+    <div class="clock-container mr-2 p-[10px] flex sm:p-[15px] md:p-[20px] mt-2">
       <div>
-        <b class="clock-text">{{ currentTime }}</b>
+        <b class="clock-text md:text-[25px]">{{ currentTime }}</b>
       </div>
       <div class="hidden md:block">
-        <b class="clock-text">&nbsp&nbsp&nbsp-{{ currentData }}-</b>
+        <b class="clock-text md:text-[25px]">&nbsp&nbsp&nbsp-{{ currentData }}-</b>
       </div>
     </div>
   </div>
@@ -60,7 +60,6 @@ onMounted(() => {
 .clock-text {
   color: blue;
   font-weight: bold;
-  font-size: 25px;
   font-family: "Arial", sans-serif;
   text-align: center;
   display: inline-block;

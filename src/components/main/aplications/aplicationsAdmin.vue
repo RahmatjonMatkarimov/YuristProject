@@ -133,7 +133,7 @@
           class="flex items-center h-[70px] text-xl justify-between mb-1 p-2 mt-[14px] shadow-2xl rounded-[10px] hover:bg-lime-500 duration-300 border-blue-700 border-2 bg-white cursor-pointer">
           <b class="text-[20px] text-black w-[35px] text-center">{{ index + 1 }}</b>
           <img width="25px" class="mr-5" src="../../../../public/word.png" alt="" />
-          <h1 class="text-black flex-1" @click="goToCard(item.id)">{{ item }}</h1>
+          <h1 class="text-black flex-1" @click="goToCard(item.id)">{{ item.fileName }}</h1>
           <div class="flex relative z-40 gap-2">
             <img @click.stop="Modalfile(item.id)" class="w-4 h-4 cursor-pointer" src="../../../../public/pen.png"
               alt="edit" />
