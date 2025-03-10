@@ -1,10 +1,10 @@
 <template>
   <div
-    class="flex mt-12 justify-between text-white items-center px-3 w-full h-[150px] md:h-[150px] lg:h-[200px] opacity-[88%] relative bg-[#0033FF]">
+    class="flex mt-12 justify-between text-white items-center px-3 w-full h-[70px] md:h-[150px] lg:h-[200px] opacity-[88%] md:relative bg-[#0033FF]">
     <div id="particles-js" class="absolute top-0 left-0 w-full h-full"></div>
     <div class="flex items-center">
       <div class="flex justify-center relative sm:ml-2 sm:mx-10 mt-2 z-10">
-        <img src="/logo.png" class="w-[200px] md:w-[250px] lg:w-[300px]" alt="Logo" />
+        <img src="/logo.png" class="w-[100px] md:w-[250px] lg:w-[300px]" alt="Logo" />
       </div>
       <b class="lg:text-[18px] hidden lg:block 2xl:text-[23px] text-[10px] w-[80%] md:w-[60%] lg:w-[35%] z-0 uppercase"
         style="text-shadow: 2px 2px 50px white;">
@@ -14,13 +14,13 @@
     <div class="lg:mr-[140px]">
       <div>
         <span v-for="(lang, index) in languages" :key="index" @click="changeLanguage(lang.code)"
-          class="mx-1 lg:text-[22px] hover:text-gray-300 duration-500 relative z-50 cursor-pointer">
+          class="mx-1 text-[13px] lg:text-[22px] hover:text-gray-300 duration-500 relative z-50 cursor-pointer">
           {{ lang.label }}
         </span>
       </div>
       <div class="flex mt-2 border-b-2 justify-center items-center">
         <input type="search" v-model="searchQuery" @input="searchItems"
-          class="bg-opacity-0 bg-[#0033FF] text-ellipsis w-full relative z-50 outline-none"
+          class="bg-opacity-0 bg-[#0033FF] text-[10px] text-ellipsis w-full relative z-50 outline-none"
           :placeholder="$t('qidiruv')">
         <label>
           <img src="/loupe.png" class="w-5" alt="Search">

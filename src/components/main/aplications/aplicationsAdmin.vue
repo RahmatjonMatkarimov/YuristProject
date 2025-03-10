@@ -124,7 +124,7 @@
       </button>
       <button v-if="ServiceData.length === 0" @click="showModal = true"
         class="text-lg font-medium py-2 px-4 bg-lime-500 hover:bg-lime-600 rounded-lg">
-        {{ $t("bo'lim yaratish") }}
+        {{ $t("bolim_yaratish") }}
       </button>
     </div>
     <div v-if="ServiceData.length" class="text-black flex flex-col justify-center mt-16 items-center">

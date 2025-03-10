@@ -92,7 +92,7 @@
         <button @click="removeSelectedItems"
           class="w-full py-4 text-lg px-6 font-medium text-white bg-red-500 rounded-lg hover:bg-red-700">
           <img class="w-6 sm:w-8 inline-block mr-2" src="../../../../public/remove.png" alt="Delete" />
-          {{ $t('removove') }}
+          {{ $t('remove') }}
         </button>
       </div>
     </div>
@@ -107,7 +107,7 @@
       </button>
       <button v-if="data.length" @click="toggleModal"
         class="text-lg font-medium py-2 px-4 bg-lime-500 hover:bg-lime-600 rounded-lg">
-        {{ $t("bo'lim yaratish") }}
+        {{ $t("bolim_yaratish") }}
       </button>
     </div>
     <div v-else class="w-full gap-2 flex justify-end px-6">
