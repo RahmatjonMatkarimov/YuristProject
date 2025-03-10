@@ -30,7 +30,9 @@ onMounted(() => {
 <template>
     <div class="flex flex-col items-center justify-center h-screen">
         <h1 class="text-xl font-bold mb-4">Faylni ko‘rish</h1>
-        <iframe v-if="fileUrl" :src="fileUrl" width="80%" height="600px" class="border border-gray-300" />
+        <iframe v-if="fileUrl" :src="fileUrl" width="80%" height="600px" class="border border-gray-300"></iframe>
         <p v-else class="text-gray-500">Fayl yuklanmoqda...</p>
+
+        <a v-if="fileUrl" :href="fileUrl" download class="mt-4 text-blue-500 underline">Faylni yuklab olish</a>
     </div>
 </template>
