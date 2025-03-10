@@ -207,6 +207,7 @@ const translitMap = {
   "k": "к", "l": "л", "m": "м", "n": "н", "o": "о", "p": "п", "q": "қ", "r": "р", "s": "с",
   "t": "т", "u": "у", "v": "в", "x": "х", "y": "й", "z": "з", "'": "ъ"
 }
+const isLoading = inject('isLoading');
 
 const getStatusText = (status) => {
   if (status === 'waiting') return 'Kutish';
@@ -225,12 +226,16 @@ const translateText = (text) => {
   return translated
 }
 const getdata = async () => {
+  isLoading.value = true;
+
   try {
     const response = await axios.get(`${URL}/admin/${userID.value}`)
     data.value = response.data.role
   } catch (error) {
     console.error('Fayllarni olishda xatolik:', error)
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 }
 const qwen = ref(false)
 const statusReason = ref('')
@@ -262,15 +267,21 @@ watch([qwen, asd, asds, showModal, showPdfModal], ([qwen, asd, asds, showModal, 
   }
 });
 const fetchFiles = async () => {
+  isLoading.value = true;
+
   try {
     const response = await axios.get(`${API_URL}/${id.value}`)
     files.value = response.data
   } catch (error) {
     console.error('Fayllarni olishda xatolik:', error)
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 }
 fetchFiles()
 const uploadFile = async () => {
+  isLoading.value = true;
+
   if (!newFile.value || !fileName.value) return
   const formData = new FormData()
   formData.append('file', newFile.value)
@@ -287,10 +298,14 @@ const uploadFile = async () => {
     fetchFiles()
   } catch (error) {
     console.error('Fayl yuklashda xatolik:', error)
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 }
 const updateFile = async () => {
-  const id = selectedFileId.value;
+  const id = selectedFileId.value;  
+  isLoading.value = true;
+
   if (!id) return;
   try {
     await axios.put(`${URL}/signingFiles/${id}`);
@@ -298,11 +313,15 @@ const updateFile = async () => {
     pdfUrl.value = `${baseUrl}?t=${new Date().getTime()}`;
   } catch (error) {
     console.error("Xatolik:", error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 
 
 const updateeFile = async (status) => {
+  isLoading.value = true;
+
   try {
     await axios.put(`${API_URL}/${selectedFileId.value}/status`, {
       status: status,
@@ -317,10 +336,14 @@ const updateeFile = async (status) => {
     fetchFiles();
   } catch (error) {
     console.error('Faylni yangilashda xatolik:', error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 
 const deleteSelectedFiles = async () => {
+  isLoading.value = true;
+
   if (selectedFiles.value.length === 0) return;
   try {
     await axios.delete(`${API_URL}/archived`, { data: { ids: selectedFiles.value } });
@@ -329,7 +352,9 @@ const deleteSelectedFiles = async () => {
     fetchFiles();
   } catch (error) {
     console.error('Fayllarni o‘chirishda xatolik:', error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 
 const openFile = (file) => {

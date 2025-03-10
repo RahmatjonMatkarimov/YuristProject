@@ -28,8 +28,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, inject } from "vue";
 import { URL } from "../../auth/url";
+const isLoading = inject('isLoading');
 
 const data = ref([]);
 const datakril = ref([]);
@@ -63,6 +64,8 @@ const getData = async () => {
     }
   } catch (error) {
     console.error("Xatolik:", error);
+  } finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 

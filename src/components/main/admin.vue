@@ -85,7 +85,6 @@
               <img v-if="item.img" :src="getImageUrl(item.img)" alt="Image" class="w-14 h-14 rounded-md" />
               <h3 class="text-lg font-medium text-center text-black capitalize">{{ item.name }}</h3>
             </div>
-            {{ item.img }}
           </div>
         </div>
       </div>

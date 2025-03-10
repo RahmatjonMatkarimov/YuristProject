@@ -205,6 +205,7 @@ const translitMap = {
   "k": "к", "l": "л", "m": "м", "n": "н", "o": "о", "p": "п", "q": "қ", "r": "р", "s": "с",
   "t": "т", "u": "у", "v": "в", "x": "х", "y": "й", "z": "з", "'": "ъ"
 }
+const isLoading = inject('isLoading');
 const qwen = ref(false)
 const statusReason = ref('')
 const searchQuery = ref('')
@@ -251,25 +252,35 @@ const translateText = (text) => {
   return translated
 }
 const getdata = async () => {
+  isLoading.value = true;
+
   try {
     const response = await axios.get(`${URL}/${localStorage.getItem("role")}/${managerID.value}`)
     data.value = response.data.role
 
   } catch (error) {
     console.error('Fayllarni olishda xatolik:', error)
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 }
 const fetchFiles = async () => {
+  isLoading.value = true;
+
   try {
     const response = await axios.get(`${API_URL}/${userID.value}`)
     files.value = response.data.userFiles.filter(item => item.type == 'tasks')
 
   } catch (error) {
     console.error('Fayllarni olishda xatolik:', error)
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 }
 fetchFiles()
 const uploadFile = async () => {
+  isLoading.value = true;
+
   if (!newFile.value || !fileName.value) return
   const formData = new FormData()
   formData.append('file', newFile.value)
@@ -287,10 +298,14 @@ const uploadFile = async () => {
     fetchFiles()
   } catch (error) {
     console.error('Fayl yuklashda xatolik:', error)
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 }
 
 const updateFile = async () => {
+  isLoading.value = true;
+
   const id = selectedFileId.value;
   if (!id) return;
   try {
@@ -299,11 +314,15 @@ const updateFile = async () => {
     pdfUrl.value = `${baseUrl}?t=${new Date().getTime()}`;
   } catch (error) {
     console.error("Xatolik:", error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 
 
 const updateeFile = async (status) => {
+  isLoading.value = true;
+
   try {
     await axios.put(`${API_URL}/${selectedFileId.value}/status`, {
       status: status,
@@ -318,10 +337,14 @@ const updateeFile = async (status) => {
     fetchFiles();
   } catch (error) {
     console.error('Faylni yangilashda xatolik:', error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 
 const deleteSelectedFiles = async () => {
+  isLoading.value = true;
+
   if (selectedFiles.value.length === 0) return;
   try {
     await axios.delete(`${API_URL}/archived`, { data: { ids: selectedFiles.value } });
@@ -330,7 +353,9 @@ const deleteSelectedFiles = async () => {
     fetchFiles();
   } catch (error) {
     console.error('Fayllarni o‘chirishda xatolik:', error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 const openFile = (file) => {
   pdfUrl.value = '';

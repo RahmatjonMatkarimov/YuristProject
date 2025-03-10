@@ -215,6 +215,7 @@ const filteredFiles = computed(() => {
   );
 });
 
+const isLoading = inject('isLoading');
 
 function qwenn(file) {
   statusReason.value = file
@@ -244,17 +245,22 @@ const getStatusText = (status) => {
   if (status === 'revision') return 'Qayta korib chiqish talab etiladi';
   return status;
 };
-
 const getdata = async () => {
-  try {
+  isLoading.value = true;
+
+  try {  
     const response = await axios.get(`${URL}/${role.value}/${userID.value}`);
     data.value = response.data.role;
   } catch (error) {
     console.error('Fayllarni olishda xatolik:', error);
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
   }
 };
 
 const fetchFiles = async () => {
+  isLoading.value = true;
+
   try {
     const response = await axios.get(`${API_URL}`);
     if (data.value === 'bigAdmin') {
@@ -264,10 +270,13 @@ const fetchFiles = async () => {
     }
   } catch (error) {
     console.error('Fayllarni olishda xatolik:', error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 fetchFiles();
 const uploadFile = async () => {
+  isLoading.value = true;
   if (!newFile.value || !fileName.value) return;
   const formData = new FormData();
   formData.append('file', newFile.value);
@@ -284,11 +293,15 @@ const uploadFile = async () => {
     fetchFiles();
   } catch (error) {
     console.error('Fayl yuklashda xatolik:', error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 
 const updateFile = async () => {
   const id = selectedFileId.value;
+  isLoading.value = true;
+
   if (!id) return;
   try {
     await axios.put(`${URL}/signingFiles/${id}`);
@@ -296,11 +309,15 @@ const updateFile = async () => {
     pdfUrl.value = `${baseUrl}?t=${new Date().getTime()}`;
   } catch (error) {
     console.error("Xatolik:", error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 
 
 const updateeFile = async (status) => {
+  isLoading.value = true;
+
   try {
     await axios.put(`${API_URL}/${selectedFileId.value}/status`, {
       status: status,
@@ -315,11 +332,15 @@ const updateeFile = async (status) => {
     fetchFiles();
   } catch (error) {
     console.error('Faylni yangilashda xatolik:', error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 
 const deleteSelectedFiles = async () => {
   if (selectedFiles.value.length === 0) return;
+  isLoading.value = true;
+
   try {
     await axios.delete(`${API_URL}/archived`, { data: { ids: selectedFiles.value } });
     selectedFiles.value = [];
@@ -327,7 +348,9 @@ const deleteSelectedFiles = async () => {
     fetchFiles();
   } catch (error) {
     console.error('Fayllarni o‘chirishda xatolik:', error);
-  }
+  }finally {
+    isLoading.value = false; // 🔹 Yuklanish tugaganini belgilash
+  } 
 };
 
 const openFile = (file) => {
