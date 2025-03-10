@@ -25,6 +25,11 @@ const getData = async () => {
 onMounted(() => {
     getData();
 });
+const openFile = () => {
+    if (fileUrl.value) {
+        window.open(fileUrl.value, "_blank");
+    }
+};
 </script>
 
 <template>
@@ -32,7 +37,12 @@ onMounted(() => {
         <h1 class="text-xl font-bold mb-4">Faylni ko‘rish</h1>
         <iframe v-if="fileUrl" :src="fileUrl" width="80%" height="600px" class="border border-gray-300"></iframe>
         <p v-else class="text-gray-500">Fayl yuklanmoqda...</p>
-
-        <a v-if="fileUrl" :href="fileUrl" download class="mt-4 text-blue-500 underline">Faylni yuklab olish</a>
+        
+        <button v-if="fileUrl" @click="openFile" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">
+            Yangi oynada ochish
+        </button>
     </div>
 </template>
+
+
+
